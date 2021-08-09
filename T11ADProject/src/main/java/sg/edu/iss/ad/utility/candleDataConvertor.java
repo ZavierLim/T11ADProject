@@ -16,6 +16,15 @@ public class candleDataConvertor {
         JSONObject jsonObject = JSON.parseObject(candleData);
         JSONObject chart = JSON.parseObject(jsonObject.get("chart").toString());
         JSONArray result = JSON.parseArray(chart.get("result").toString());
+
+        //check if the ticker requested contains candle data. If not, next line will throw an exception
+        try{
+            String validationCheck = result.getJSONObject(0).get("timestamp").toString();
+            System.out.println(validationCheck);
+        }catch (NullPointerException e){
+            return null;
+        }
+
         JSONArray timestamps = JSON.parseArray(result.getJSONObject(0).get("timestamp").toString());
         JSONObject indicators = JSON.parseObject(result.getJSONObject(0).get("indicators").toString());
         JSONArray quote = JSON.parseArray(indicators.get("quote").toString());
