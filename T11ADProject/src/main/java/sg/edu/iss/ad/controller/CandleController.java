@@ -37,6 +37,10 @@ public class CandleController {
 
         List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
 
+        if (result == null){
+            return JSON.toJSONString("no candle data of this ticker found");
+        }
+
         System.out.println(result.size());
 
         return JSON.toJSONString(result);
