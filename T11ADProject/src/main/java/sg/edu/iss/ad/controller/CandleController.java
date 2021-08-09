@@ -25,6 +25,25 @@ public class CandleController {
         return "hello";
     }
 
+    @GetMapping("/getLatestPrice/{ticker}")
+    public String getLastestPrice(@PathVariable String ticker){
+        String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
+        RestTemplate restTemplate =new RestTemplate();
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Accept","application/json");
+        headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
+        ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
+
+        List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
+
+        if (result == null){
+            return JSON.toJSONString("no candle data of this ticker found");
+        }
+
+        return JSON.toJSONString(result.get(result.size()-1));
+    }
+
     @GetMapping("/getCandleData/{ticker}")
     public String getCandleData(@PathVariable("ticker") String ticker){
         String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
