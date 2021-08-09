@@ -31,10 +31,23 @@ public class UserController {
 		return Uservice.FindUser(id);
 	}
 	
-	//create rest api
+	//Create rest api
 	@PostMapping("/users/add")
 	public User createUser(@RequestBody User user) {
 		return Uservice.createUser(user);
 	}
+	
+	//Delete user api
+	@PostMapping("/users/delete")
+	public User deleteUser(@RequestBody User user) {
+		return Uservice.deleteUser(user);
+	}
+	
+	//update user API
+	@PostMapping("/users/update")
+	public User updateUser(@RequestBody User user) {
+		return Uservice.updateUser(user);
+	}
+	
 	
 }
