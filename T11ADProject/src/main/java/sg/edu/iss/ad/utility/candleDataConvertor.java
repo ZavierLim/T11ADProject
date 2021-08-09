@@ -13,6 +13,8 @@ public class candleDataConvertor {
 
     public static List<CandleModel> candleResultToList(String candleData){
 
+        List<CandleModel> candlesWhenGotError = new ArrayList<>();
+        
         //check if the ticker requested contains candle data. If not, NullPointerException will be thrown
         try {
             List<CandleModel> candles= new ArrayList<>();
@@ -44,22 +46,20 @@ public class candleDataConvertor {
                 double o = openList.get(i);
                 double c = closeList.get(i);
 
+//                System.out.println(i);
+//                String formats = "yyyy-MM-dd HH:mm:ss";
+//                long timestamp = (long)t * 1000;
+//                String date = new SimpleDateFormat(formats, Locale.CHINA).format(new Date(timestamp));
+//                System.out.println("time: "+date);
+
                 candles.add(new CandleModel(t,c,o,h,l,v));
-//
-//            String formats = "yyyy-MM-dd HH:mm:ss";
-//            long timestamp = (long)t * 1000;
-//            String date = new SimpleDateFormat(formats, Locale.CHINA).format(new Date(timestamp));
-//            System.out.println("time: "+date);
-//            System.out.println("open: "+o);
-//            System.out.println("close: "+c);
-//            System.out.println("high: "+h);
-//            System.out.println("low: "+l);
-//            System.out.println("value: "+v);
+                candlesWhenGotError.add(new CandleModel(t,c,o,h,l,v));
+
 //
             }
             return candles;
         }catch (NullPointerException e){
-            return null;
+            return candlesWhenGotError;
         }
 
     }
