@@ -17,8 +17,9 @@ import sg.edu.iss.ad.model.CandleModel;
 import sg.edu.iss.ad.utility.candleDataConvertor;
 
 /*
-* VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7
-* eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp
+* yahoo api key
+* Harrison's key:   VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7
+* Pan's key:        eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp
 * */
 
 @CrossOrigin
