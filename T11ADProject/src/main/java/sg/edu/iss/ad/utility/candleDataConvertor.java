@@ -56,4 +56,21 @@ public class candleDataConvertor {
         }
         return candles;
     }
+
+    public static List<Map<String,String>> getTopFiveSymbols(String sybmolData){
+        JSONObject jsonObject = JSON.parseObject(sybmolData);
+        JSONArray result = JSON.parseArray(jsonObject.get("result").toString());
+        List<Map<String,String>> symbols = new ArrayList<>();
+        for (int i = 0; i < result.size(); i++) {
+            if (i==5)
+                break;
+            JSONObject symbol = JSON.parseObject(result.getJSONObject(i).toString());
+            Map<String,String> symbolMap =new HashMap<>();
+            symbolMap.put("description",symbol.get("description").toString());
+            symbolMap.put("symbol",symbol.get("symbol").toString());
+            symbols.add(symbolMap);
+        }
+
+        return symbols;
+    }
 }
