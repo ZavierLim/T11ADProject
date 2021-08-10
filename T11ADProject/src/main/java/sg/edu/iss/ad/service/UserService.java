@@ -28,7 +28,7 @@ public class UserService {
 	
 	public User updateUser(User user) {
 		User founduser=urepo.findById(user.getId()).orElse(null);
-		founduser.setUsername(user.getPassword());
+		founduser.setUsername(user.getUsername());
 		founduser.setEmail(user.getEmail());
 		founduser.setPassword(user.getPassword());
 		urepo.save(founduser);
