@@ -31,14 +31,15 @@ public class CandleController {
         RestTemplate restTemplate =new RestTemplate();
         HttpHeaders headers=new HttpHeaders();
         headers.add("Accept","application/json");
-        headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+        //headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+        headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
         ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
 
         List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
 
         if (result == null){
-            return JSON.toJSONString("no candle data of this ticker found");
+            return JSON.toJSONString("no data");
         }
 
         return JSON.toJSONString(result.get(result.size()-1));
@@ -50,14 +51,15 @@ public class CandleController {
         RestTemplate restTemplate =new RestTemplate();
         HttpHeaders headers=new HttpHeaders();
         headers.add("Accept","application/json");
-        headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+      //headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+        headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
         ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
 
         List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
 
         if (result == null){
-            return JSON.toJSONString("no candle data of this ticker found");
+            return JSON.toJSONString("no data");
         }
 
         System.out.println(result.size());
