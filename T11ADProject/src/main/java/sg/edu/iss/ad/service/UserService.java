@@ -3,8 +3,12 @@ package sg.edu.iss.ad.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import sg.edu.iss.ad.model.MailVo;
 import sg.edu.iss.ad.model.User;
 import sg.edu.iss.ad.repository.UserRepository;
 
@@ -12,6 +16,10 @@ import sg.edu.iss.ad.repository.UserRepository;
 public class UserService {
 	@Autowired
 	UserRepository urepo;
+
+	@Autowired
+	JavaMailSender javaMailSender;
+
 	
 	public List<User> findallUsers(){
 		return urepo.findAll();
@@ -40,4 +48,14 @@ public class UserService {
 		urepo.delete(founduser);
 		return user;
 	}
+
+	public void sendEmailNotification(MailVo mail) {
+		SimpleMailMessage simpleMailMessage=new SimpleMailMessage();
+		simpleMailMessage.setFrom(mail.getFrom());
+		simpleMailMessage.setTo(mail.getTo());
+		simpleMailMessage.setSubject(mail.getSubject());
+		simpleMailMessage.setText(mail.getText());
+		javaMailSender.send(simpleMailMessage);
+	}
+	
 }
