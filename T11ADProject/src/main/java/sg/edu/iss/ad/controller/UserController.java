@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,8 +33,12 @@ public class UserController {
 	}
 	
 	@GetMapping("/users/{id}")
-	public User Findallusers(@PathVariable Long id){
-		return Uservice.FindUser(id);
+	public ResponseEntity<User> Findallusers(@PathVariable Long id){
+		User user= Uservice.FindUser(id);
+		if(user!=null) {
+			return ResponseEntity.ok(user);
+		}
+		return ResponseEntity.badRequest().body(null);
 	}
 	
 	//Create rest api
@@ -61,6 +66,17 @@ public class UserController {
 		Map<String,Boolean> response=new HashMap<>();
 		response.put("deleted",Boolean.TRUE);
 		return ResponseEntity.ok(response);
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<User> Login(@RequestBody User user){
+		User userauthentication=Uservice.AuthenticateUser(user);
+		if(userauthentication!=null) {
+			System.out.println(user.getEmail());
+			return ResponseEntity.ok(userauthentication);			
+		}
+
+		return ResponseEntity.badRequest().body(null);
 	}
 	
 	

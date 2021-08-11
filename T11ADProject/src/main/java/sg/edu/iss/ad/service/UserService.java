@@ -40,4 +40,11 @@ public class UserService {
 		urepo.delete(founduser);
 		return user;
 	}
+	
+	public User AuthenticateUser(User user) {
+		User okuser=urepo.finduser(user.getUsername(), user.getPassword());
+		if(okuser!=null) 		
+			return okuser;
+		return null;
+	}
 }
