@@ -23,5 +23,47 @@ public class CandleHistory {
 	
 	private long DateTimeTrigger;
 	
-	public CandleHistory() {};
+	public CandleHistory() {}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return User;
+	}
+
+	public void setUser(User user) {
+		User = user;
+	}
+
+	public Stock getStock() {
+		return Stock;
+	}
+
+	public void setStock(Stock stock) {
+		Stock = stock;
+	}
+
+	public Candle getCandle() {
+		return Candle;
+	}
+
+	public void setCandle(Candle candle) {
+		Candle = candle;
+	}
+
+	public long getDateTimeTrigger() {
+		return DateTimeTrigger;
+	}
+
+	public void setDateTimeTrigger(long dateTimeTrigger) {
+		DateTimeTrigger = dateTimeTrigger;
+	};
+	
+	
 }

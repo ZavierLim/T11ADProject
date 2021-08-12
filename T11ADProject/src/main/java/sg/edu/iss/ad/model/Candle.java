@@ -22,6 +22,38 @@ public class Candle {
 	@OneToMany(mappedBy="Candle")
 	private List<UserCandleWatchList>  CandleWatchList;
 	
-	public Candle() {};
+	public Candle() {}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getCandleName() {
+		return CandleName;
+	}
+
+	public void setCandleName(String candleName) {
+		CandleName = candleName;
+	}
+
+	public List<CandleHistory> getCandleHistory() {
+		return CandleHistory;
+	}
+
+	public void setCandleHistory(List<CandleHistory> candleHistory) {
+		CandleHistory = candleHistory;
+	}
+
+	public List<UserCandleWatchList> getCandleWatchList() {
+		return CandleWatchList;
+	}
+
+	public void setCandleWatchList(List<UserCandleWatchList> candleWatchList) {
+		CandleWatchList = candleWatchList;
+	};
 	
 }

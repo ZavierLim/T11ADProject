@@ -19,6 +19,8 @@ public class UserStockComment {
 	
 	private String Comment;
 	
+	private long CommentDateTime;
+	
 	@ManyToOne
 	private User User;	
 	

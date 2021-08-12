@@ -31,5 +31,55 @@ public class Stock {
 	@OneToMany(mappedBy="Stock")
 	private List<UserStockWatchList> UserStockWatchList;
 	
-	public Stock() {};
+	public Stock() {}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getStockTicker() {
+		return StockTicker;
+	}
+
+	public void setStockTicker(String stockTicker) {
+		StockTicker = stockTicker;
+	}
+
+	public String getStockName() {
+		return StockName;
+	}
+
+	public void setStockName(String stockName) {
+		StockName = stockName;
+	}
+
+	public List<CandleHistory> getCandleHistory() {
+		return CandleHistory;
+	}
+
+	public void setCandleHistory(List<CandleHistory> candleHistory) {
+		CandleHistory = candleHistory;
+	}
+
+	public List<UserStockComment> getUserStockComment() {
+		return UserStockComment;
+	}
+
+	public void setUserStockComment(List<UserStockComment> userStockComment) {
+		UserStockComment = userStockComment;
+	}
+
+	public List<UserStockWatchList> getUserStockWatchList() {
+		return UserStockWatchList;
+	}
+
+	public void setUserStockWatchList(List<UserStockWatchList> userStockWatchList) {
+		UserStockWatchList = userStockWatchList;
+	};
+	
+	
 }
