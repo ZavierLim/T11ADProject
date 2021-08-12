@@ -39,8 +39,8 @@ public class CandleController {
         HttpHeaders headers=new HttpHeaders();
         headers.add("Accept","application/json");
 
-        //headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
-        headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
+        headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+        //headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
         
         //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
@@ -61,8 +61,8 @@ public class CandleController {
         RestTemplate restTemplate =new RestTemplate();
         HttpHeaders headers=new HttpHeaders();
         headers.add("Accept","application/json");
-      //headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
-      headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
+      headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+        //headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
         //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
         ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
