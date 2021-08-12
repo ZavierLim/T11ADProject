@@ -19,7 +19,12 @@ import sg.edu.iss.ad.utility.candleDataConvertor;
 * yahoo api key
 * Harrison's key:   VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7
 * Pan's key:        eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp
+* Wanling's key:    3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r
+<<<<<<< HEAD
+* Zavier's key: 	NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu
+=======
 * Zavier's Key:     NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu
+>>>>>>> 911a1f247bf9f7b6bbed411bd57f2d3142d03a77
 * */
 
 @CrossOrigin
@@ -31,7 +36,21 @@ public class CandleController {
 
     @GetMapping("/getLatestPrice/{ticker}")
     public String getLastestPrice(@PathVariable String ticker){
-        String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=1d&region=US&interval=1m";
+        String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=1d&region=US&interval=1d";
+
+//        RestTemplate restTemplate =new RestTemplate();
+//        HttpHeaders headers=new HttpHeaders();
+//        headers.add("Accept","application/json");
+//
+//        headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+//        //headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
+//        
+//        //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
+//        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
+//        ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
+//
+//        List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
+
 
         List<CandleModel> result = candleService.getCandleData(url);
 
@@ -45,6 +64,16 @@ public class CandleController {
     @GetMapping("/getCandleData/{ticker}")
     public String getCandleData(@PathVariable("ticker") String ticker){
         String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
+//
+//        RestTemplate restTemplate =new RestTemplate();
+//        HttpHeaders headers=new HttpHeaders();
+//        headers.add("Accept","application/json");
+//      headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+//        //headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
+//        //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
+//        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
+//        ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
+
 
         List<CandleModel> result = candleService.getCandleData(url);
 
