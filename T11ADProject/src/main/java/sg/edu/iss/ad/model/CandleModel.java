@@ -3,7 +3,7 @@ package sg.edu.iss.ad.model;
 
 //model the candle data from website
 public class CandleModel {
-    private int timestamp;
+    private long timestamp;
 
     private double close;
 
@@ -15,7 +15,7 @@ public class CandleModel {
 
     private int volume;
 
-    public CandleModel(int timestamp, double close, double open, double high, double low, int volume) {
+    public CandleModel(long timestamp, double close, double open, double high, double low, int volume) {
         this.timestamp = timestamp;
         this.close = close;
         this.open = open;
@@ -24,11 +24,11 @@ public class CandleModel {
         this.volume = volume;
     }
 
-    public Integer getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Integer timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 

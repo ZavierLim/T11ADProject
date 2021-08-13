@@ -36,7 +36,7 @@ public class CandleController {
 
     @GetMapping("/getLatestPrice/{ticker}")
     public String getLastestPrice(@PathVariable String ticker){
-        String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=1d&region=US&interval=1d";
+        //String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=1d&region=US&interval=1d";
 
 //        RestTemplate restTemplate =new RestTemplate();
 //        HttpHeaders headers=new HttpHeaders();
@@ -51,7 +51,9 @@ public class CandleController {
 //
 //        List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
 
-        List<CandleModel> result = candleService.getCandleData(url);
+
+
+        List<CandleModel> result = candleService.getCandleData(ticker);
 
         if (result == null||result.size()==0){
             return JSON.toJSONString("no candle data of this ticker found");
@@ -62,7 +64,7 @@ public class CandleController {
 
     @GetMapping("/getCandleData/{ticker}")
     public String getCandleData(@PathVariable("ticker") String ticker){
-        String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
+//        String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
 //
 //        RestTemplate restTemplate =new RestTemplate();
 //        HttpHeaders headers=new HttpHeaders();
@@ -74,7 +76,7 @@ public class CandleController {
 //        ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
 
 
-        List<CandleModel> result = candleService.getCandleData(url);
+        List<CandleModel> result = candleService.getCandleData(ticker);
 
         if (result == null||result.size()==0){
             return JSON.toJSONString("no data");

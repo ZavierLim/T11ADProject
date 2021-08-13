@@ -3,6 +3,7 @@ package sg.edu.iss.ad.model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,15 +26,15 @@ public class User {
 	private String email;
 	private RoleType role;
 	
-	@OneToMany(mappedBy="User")
-	private List<UserStockComment> UserStockComment;
-	
-	//@OneToOne(mappedBy="User")
-	@OneToMany(mappedBy="User")
-	private List<UserStockWatchList> UserStockWatchList;
-	
-	@OneToMany(mappedBy="User")
-	private List<CandleHistory> CandleHistory;
+//	@OneToMany(fetch=FetchType.LAZY,mappedBy="User")
+//	private List<UserStockComment> UserStockComment;
+//	
+//	//@OneToOne(mappedBy="User")
+//	@OneToMany(fetch=FetchType.LAZY,mappedBy="User")
+//	private List<UserStockWatchList> UserStockWatchList;
+//	
+//	@OneToMany(fetch=FetchType.LAZY,mappedBy="User")
+//	private List<CandleHistory> CandleHistory;
 	
 	public User() {}
 
@@ -77,29 +78,29 @@ public class User {
 		this.role = role;
 	}
 
-	public List<UserStockComment> getUserStockComment() {
-		return UserStockComment;
-	}
-
-	public void setUserStockComment(List<UserStockComment> userStockComment) {
-		UserStockComment = userStockComment;
-	}
-
-	public List<UserStockWatchList> getUserStockWatchList() {
-		return UserStockWatchList;
-	}
-
-	public void setUserStockWatchList(List<UserStockWatchList> userStockWatchList) {
-		UserStockWatchList = userStockWatchList;
-	}
-
-	public List<CandleHistory> getCandleHistory() {
-		return CandleHistory;
-	}
-
-	public void setCandleHistory(List<CandleHistory> candleHistory) {
-		CandleHistory = candleHistory;
-	};
+//	public List<UserStockComment> getUserStockComment() {
+//		return UserStockComment;
+//	}
+//
+//	public void setUserStockComment(List<UserStockComment> userStockComment) {
+//		UserStockComment = userStockComment;
+//	}
+//
+//	public List<UserStockWatchList> getUserStockWatchList() {
+//		return UserStockWatchList;
+//	}
+//
+//	public void setUserStockWatchList(List<UserStockWatchList> userStockWatchList) {
+//		UserStockWatchList = userStockWatchList;
+//	}
+//
+//	public List<CandleHistory> getCandleHistory() {
+//		return CandleHistory;
+//	}
+//
+//	public void setCandleHistory(List<CandleHistory> candleHistory) {
+//		CandleHistory = candleHistory;
+//	};
 	
 	
 }
