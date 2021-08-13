@@ -51,7 +51,6 @@ public class CandleController {
 //
 //        List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
 
-
         List<CandleModel> result = candleService.getCandleData(url);
 
         if (result == null||result.size()==0){
