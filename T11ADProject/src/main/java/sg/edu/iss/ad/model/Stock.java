@@ -3,6 +3,7 @@ package sg.edu.iss.ad.model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,16 +21,16 @@ public class Stock {
 	private String StockTicker;
 	private String StockName;
 	
-	@OneToMany(mappedBy="Stock")
-	private List<CandleHistory> CandleHistory;
-	
-	@OneToMany(mappedBy="Stock")
-	private List<UserStockComment> UserStockComment;
-	
-	//@ManyToMany
-	//@JoinTable(name="User_Stock_Watchlist", joinColumns=@JoinColumn(name="stock_id"),inverseJoinColumns=@JoinColumn(name="watchlist_id"))
-	@OneToMany(mappedBy="Stock")
-	private List<UserStockWatchList> UserStockWatchList;
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy="Stock")
+//	private List<CandleHistory> CandleHistory;
+//	
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy="Stock")
+//	private List<UserStockComment> UserStockComment;
+//	
+//	//@ManyToMany
+//	//@JoinTable(name="User_Stock_Watchlist", joinColumns=@JoinColumn(name="stock_id"),inverseJoinColumns=@JoinColumn(name="watchlist_id"))
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy="Stock")
+//	private List<UserStockWatchList> UserStockWatchList;
 	
 	public Stock() {}
 
@@ -57,29 +58,29 @@ public class Stock {
 		StockName = stockName;
 	}
 
-	public List<CandleHistory> getCandleHistory() {
-		return CandleHistory;
-	}
-
-	public void setCandleHistory(List<CandleHistory> candleHistory) {
-		CandleHistory = candleHistory;
-	}
-
-	public List<UserStockComment> getUserStockComment() {
-		return UserStockComment;
-	}
-
-	public void setUserStockComment(List<UserStockComment> userStockComment) {
-		UserStockComment = userStockComment;
-	}
-
-	public List<UserStockWatchList> getUserStockWatchList() {
-		return UserStockWatchList;
-	}
-
-	public void setUserStockWatchList(List<UserStockWatchList> userStockWatchList) {
-		UserStockWatchList = userStockWatchList;
-	};
+//	public List<CandleHistory> getCandleHistory() {
+//		return CandleHistory;
+//	}
+//
+//	public void setCandleHistory(List<CandleHistory> candleHistory) {
+//		CandleHistory = candleHistory;
+//	}
+//
+//	public List<UserStockComment> getUserStockComment() {
+//		return UserStockComment;
+//	}
+//
+//	public void setUserStockComment(List<UserStockComment> userStockComment) {
+//		UserStockComment = userStockComment;
+//	}
+//
+//	public List<UserStockWatchList> getUserStockWatchList() {
+//		return UserStockWatchList;
+//	}
+//
+//	public void setUserStockWatchList(List<UserStockWatchList> userStockWatchList) {
+//		UserStockWatchList = userStockWatchList;
+//	};
 	
 	
 }

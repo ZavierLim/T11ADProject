@@ -10,6 +10,6 @@ import sg.edu.iss.ad.model.UserStockComment;
 
 
 public interface UserStockCommentRepository extends JpaRepository<UserStockComment,Long> {
-	@Query("Select usc FROM UserStockComment usc WHERE usc.Stock.StockTicker=:tickername")
+	@Query("Select usc FROM UserStockComment usc JOIN FETCH usc.Stock s JOIN FETCH usc.User u WHERE usc.Stock.StockTicker=:tickername")
 	public List<UserStockComment> findCommentsByStock(@Param("tickername")String tickername);
 }

@@ -16,11 +16,11 @@ public class Candle {
 	
 	private String CandleName;
 	
-	@OneToMany(mappedBy="Candle")
-	private List<CandleHistory> CandleHistory;
-	
-	@OneToMany(mappedBy="Candle")
-	private List<UserCandleWatchList>  CandleWatchList;
+//	@OneToMany(mappedBy="Candle")
+//	private List<CandleHistory> CandleHistory;
+//	
+//	@OneToMany(mappedBy="Candle")
+//	private List<UserCandleWatchList>  CandleWatchList;
 	
 	public Candle() {}
 
@@ -40,20 +40,20 @@ public class Candle {
 		CandleName = candleName;
 	}
 
-	public List<CandleHistory> getCandleHistory() {
-		return CandleHistory;
-	}
-
-	public void setCandleHistory(List<CandleHistory> candleHistory) {
-		CandleHistory = candleHistory;
-	}
-
-	public List<UserCandleWatchList> getCandleWatchList() {
-		return CandleWatchList;
-	}
-
-	public void setCandleWatchList(List<UserCandleWatchList> candleWatchList) {
-		CandleWatchList = candleWatchList;
-	};
+//	public List<CandleHistory> getCandleHistory() {
+//		return CandleHistory;
+//	}
+//
+//	public void setCandleHistory(List<CandleHistory> candleHistory) {
+//		CandleHistory = candleHistory;
+//	}
+//
+//	public List<UserCandleWatchList> getCandleWatchList() {
+//		return CandleWatchList;
+//	}
+//
+//	public void setCandleWatchList(List<UserCandleWatchList> candleWatchList) {
+//		CandleWatchList = candleWatchList;
+//	};
 	
 }

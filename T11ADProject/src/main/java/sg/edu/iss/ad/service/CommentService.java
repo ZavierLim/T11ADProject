@@ -2,6 +2,8 @@ package sg.edu.iss.ad.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ public class CommentService {
 	@Autowired
 	UserStockCommentRepository crepo;
 	
+	@Transactional
 	public List<UserStockComment> getStockComments(String ticker){
 		return crepo.findCommentsByStock(ticker);
 	}

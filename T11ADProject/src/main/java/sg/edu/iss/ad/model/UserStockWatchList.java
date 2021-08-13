@@ -3,6 +3,7 @@ package sg.edu.iss.ad.model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,14 +21,14 @@ public class UserStockWatchList {
 	private long id;
 	
 	//@ManyToMany(mappedBy="UserStockWatchList")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Stock Stock;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User User;
 	
-	@OneToMany(mappedBy="UserStockWatchList")
-	private List<UserCandleWatchList> UserCandleWatchList;
+//	@OneToMany(mappedBy="UserStockWatchList")
+//	private List<UserCandleWatchList> UserCandleWatchList;
 	
 	public UserStockWatchList() {}
 
@@ -55,13 +56,13 @@ public class UserStockWatchList {
 		User = user;
 	}
 
-	public List<UserCandleWatchList> getUserCandleWatchList() {
-		return UserCandleWatchList;
-	}
-
-	public void setUserCandleWatchList(List<UserCandleWatchList> userCandleWatchList) {
-		UserCandleWatchList = userCandleWatchList;
-	};
+//	public List<UserCandleWatchList> getUserCandleWatchList() {
+//		return UserCandleWatchList;
+//	}
+//
+//	public void setUserCandleWatchList(List<UserCandleWatchList> userCandleWatchList) {
+//		UserCandleWatchList = userCandleWatchList;
+//	};
 	
 	
 }
