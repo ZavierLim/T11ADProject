@@ -8,16 +8,17 @@ import sg.edu.iss.ad.model.CandleModel;
 import javax.validation.constraints.Null;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class candleDataConvertor {
 
-    public static List<CandleModel> candleResultToList(String candleData){
+    public static List<CandleModel> candleResultToList(String candleData) {
 
         List<CandleModel> candlesWhenGotError = new ArrayList<>();
-        
+
         //check if the ticker requested contains candle data. If not, NullPointerException will be thrown
         try {
-            List<CandleModel> candles= new ArrayList<>();
+            List<CandleModel> candles = new ArrayList<>();
             JSONObject jsonObject = JSON.parseObject(candleData);
             JSONObject chart = JSON.parseObject(jsonObject.get("chart").toString());
             JSONArray result = JSON.parseArray(chart.get("result").toString());
@@ -31,12 +32,12 @@ public class candleDataConvertor {
             JSONArray close = JSON.parseArray(price.get("close").toString());
             JSONArray volume = JSON.parseArray(price.get("volume").toString());
 
-            List<Integer> timestampList = JSON.parseArray(timestamps.toString(),Integer.class);
-            List<Integer> volumeList = JSON.parseArray(volume.toString(),Integer.class);
-            List<Double> highList = JSON.parseArray(high.toString(),Double.class);
-            List<Double> lowList = JSON.parseArray(low.toString(),Double.class);
-            List<Double> openList = JSON.parseArray(open.toString(),Double.class);
-            List<Double> closeList = JSON.parseArray(close.toString(),Double.class);
+            List<Integer> timestampList = JSON.parseArray(timestamps.toString(), Integer.class);
+            List<Integer> volumeList = JSON.parseArray(volume.toString(), Integer.class);
+            List<Double> highList = JSON.parseArray(high.toString(), Double.class);
+            List<Double> lowList = JSON.parseArray(low.toString(), Double.class);
+            List<Double> openList = JSON.parseArray(open.toString(), Double.class);
+            List<Double> closeList = JSON.parseArray(close.toString(), Double.class);
 
             for (int i = 0; i < low.size(); i++) {
                 int t = timestampList.get(i);
@@ -52,32 +53,32 @@ public class candleDataConvertor {
 //                String date = new SimpleDateFormat(formats, Locale.CHINA).format(new Date(timestamp));
 //                System.out.println("time: "+date);
 
-                candles.add(new CandleModel(t,c,o,h,l,v));
-                candlesWhenGotError.add(new CandleModel(t,c,o,h,l,v));
+                candles.add(new CandleModel(t, c, o, h, l, v));
+                candlesWhenGotError.add(new CandleModel(t, c, o, h, l, v));
 
 //
             }
             return candles;
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return candlesWhenGotError;
         }
 
     }
 
-    public static List<Map<String,String>> getTopFiveSymbols(String sybmolData){
+    public static List<Map<String, String>> getTopFiveSymbols(String sybmolData) {
         JSONObject jsonObject = JSON.parseObject(sybmolData);
         JSONArray result = JSON.parseArray(jsonObject.get("result").toString());
-        List<Map<String,String>> symbols = new ArrayList<>();
+        List<Map<String, String>> symbols = new ArrayList<>();
         for (int i = 0; i < result.size(); i++) {
-            if (i==5)
+            if (i == 5)
                 break;
             JSONObject symbol = JSON.parseObject(result.getJSONObject(i).toString());
-            Map<String,String> symbolMap =new HashMap<>();
-            symbolMap.put("description",symbol.get("description").toString());
-            symbolMap.put("symbol",symbol.get("symbol").toString());
+            Map<String, String> symbolMap = new HashMap<>();
+            symbolMap.put("description", symbol.get("description").toString());
+            symbolMap.put("symbol", symbol.get("symbol").toString());
             symbols.add(symbolMap);
         }
-
         return symbols;
     }
 }
+
