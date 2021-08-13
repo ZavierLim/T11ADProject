@@ -2,6 +2,8 @@ package sg.edu.iss.ad.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,11 +22,12 @@ public class UserService {
 	@Autowired
 	JavaMailSender javaMailSender;
 
-	
+	@Transactional
 	public List<User> findallUsers(){
 		return urepo.findAll();
 	}
 	
+	@Transactional
 	public User FindUser(Long id){
 		return urepo.findById(id).orElse(null);
 	}

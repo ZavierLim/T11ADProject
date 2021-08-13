@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-public class WatchListController {
-
+public class StockController {
+	//when user adds to first comment, save stock and comment
+	
 }
