@@ -23,8 +23,8 @@ public class T11AdProjectApplication {
 	CommandLineRunner runner() {
 		return args->{
 			//Seed data only done once
-			//DbSeeding.seedDB1();
-			//DbSeeding.seedDB2();
+			DbSeeding.seedDB1();
+			DbSeeding.seedDB2();
 		};
 	}
 }

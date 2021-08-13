@@ -13,13 +13,13 @@ public class CandleHistory {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	private User User;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	private User User;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Stock Stock;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Candle Candle;
 	
 	private long DateTimeTrigger;
@@ -34,13 +34,13 @@ public class CandleHistory {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return User;
-	}
-
-	public void setUser(User user) {
-		User = user;
-	}
+//	public User getUser() {
+//		return User;
+//	}
+//
+//	public void setUser(User user) {
+//		User = user;
+//	}
 
 	public Stock getStock() {
 		return Stock;
