@@ -106,8 +106,7 @@ public class CandleController {
     
     @GetMapping("/signalforbullish/{ticker}")
     public List<String> getBullishEngulfingforstock(@PathVariable String ticker) {
-    	String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
-        List<CandleModel> result = candleService.getCandleData(url);
+        List<CandleModel> result = candleService.getCandleData(ticker);
         List<String> dates=candleService.getBullishEngulfingCandleSignal(result);
         System.out.println(dates);
         return dates;
@@ -115,8 +114,7 @@ public class CandleController {
     
     @GetMapping("/signalforbearish/{ticker}")
     public List<String> getBearishEngulfingforstock(@PathVariable String ticker) {
-    	String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
-        List<CandleModel> result = candleService.getCandleData(url);
+        List<CandleModel> result = candleService.getCandleData(ticker);
         List<String> dates=candleService.getBearishEngulfingCandleSignal(result);
         System.out.println(dates);
         return dates;
@@ -124,8 +122,7 @@ public class CandleController {
     
     @GetMapping("/signalforeveningstar/{ticker}")
     public List<String> getEveningStarForStock(@PathVariable String ticker) {
-    	String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
-        List<CandleModel> result = candleService.getCandleData(url);
+        List<CandleModel> result = candleService.getCandleData(ticker);
         List<String> dates=candleService.getEveningStar(result);
         System.out.println(dates);
         return dates;
@@ -133,8 +130,7 @@ public class CandleController {
     
     @GetMapping("/signalformorningstar/{ticker}")
     public List<String> getMorningStarForStock(@PathVariable String ticker) {
-    	String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
-        List<CandleModel> result = candleService.getCandleData(url);
+        List<CandleModel> result = candleService.getCandleData(ticker);
         List<String> dates=candleService.getMorningStarCandle(result);
         System.out.println(dates);
         return dates;
