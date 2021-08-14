@@ -1,9 +1,11 @@
 package sg.edu.iss.ad.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +54,11 @@ public class CandleController {
 //        List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
 
 
+        String url = "https://finnhub.io/api/v1/stock/profile2?symbol="+ticker+"&token=c44j0b2ad3i82cb9pe4g";
+        RestTemplate restTemplate =new RestTemplate();
+        ResponseEntity<String> rawCompanyProfile = restTemplate.getForEntity(url,String.class);
+        JSONObject companyProfile = JSON.parseObject(rawCompanyProfile.getBody());
+        String companyName = companyProfile.getString("name");
 
         List<CandleModel> result = candleService.getCandleData(ticker);
 
@@ -59,7 +66,11 @@ public class CandleController {
             return JSON.toJSONString("no candle data of this ticker found");
         }
 
-        return JSON.toJSONString(result.get(result.size()-1));
+        Map<String,Object> latestPrice = new HashMap();
+        latestPrice.put("description",companyName);
+        latestPrice.put("close",result.get(result.size()-1).getClose());
+
+        return JSON.toJSONString(latestPrice);
     }
 
     @GetMapping("/getCandleData/{ticker}")
@@ -97,8 +108,7 @@ public class CandleController {
     
     @GetMapping("/signalforbullish/{ticker}")
     public List<String> getBullishEngulfingforstock(@PathVariable String ticker) {
-    	String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
-        List<CandleModel> result = candleService.getCandleData(url);
+        List<CandleModel> result = candleService.getCandleData(ticker);
         List<String> dates=candleService.getBullishEngulfingCandleSignal(result);
         System.out.println(dates);
         return dates;
@@ -106,8 +116,7 @@ public class CandleController {
     
     @GetMapping("/signalforbearish/{ticker}")
     public List<String> getBearishEngulfingforstock(@PathVariable String ticker) {
-    	String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
-        List<CandleModel> result = candleService.getCandleData(url);
+        List<CandleModel> result = candleService.getCandleData(ticker);
         List<String> dates=candleService.getBearishEngulfingCandleSignal(result);
         System.out.println(dates);
         return dates;
@@ -115,8 +124,7 @@ public class CandleController {
     
     @GetMapping("/signalforeveningstar/{ticker}")
     public List<String> getEveningStarForStock(@PathVariable String ticker) {
-    	String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
-        List<CandleModel> result = candleService.getCandleData(url);
+        List<CandleModel> result = candleService.getCandleData(ticker);
         List<String> dates=candleService.getEveningStar(result);
         System.out.println(dates);
         return dates;
@@ -124,8 +132,7 @@ public class CandleController {
     
     @GetMapping("/signalformorningstar/{ticker}")
     public List<String> getMorningStarForStock(@PathVariable String ticker) {
-    	String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
-        List<CandleModel> result = candleService.getCandleData(url);
+        List<CandleModel> result = candleService.getCandleData(ticker);
         List<String> dates=candleService.getMorningStarCandle(result);
         System.out.println(dates);
         return dates;
