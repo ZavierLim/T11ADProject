@@ -1,5 +1,6 @@
 package sg.edu.iss.ad.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,7 +8,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sg.edu.iss.ad.DTO.CommentsDTO;
 import sg.edu.iss.ad.model.UserStockComment;
+import sg.edu.iss.ad.repository.StockRepository;
+import sg.edu.iss.ad.repository.UserRepository;
 import sg.edu.iss.ad.repository.UserStockCommentRepository;
 
 @Service
@@ -15,9 +19,35 @@ public class CommentService {
 	@Autowired
 	UserStockCommentRepository crepo;
 	
+	@Autowired
+	UserRepository urepo;
+	
+	@Autowired
+	StockRepository srepo;
+	
 	@Transactional
-	public List<UserStockComment> getStockComments(String ticker){
-		return crepo.findCommentsByStock(ticker);
+	public List<CommentsDTO> getStockComments(String ticker){
+		List<UserStockComment> comments=crepo.findCommentsByStock(ticker);
+		List<CommentsDTO> commentDTOList=new ArrayList<CommentsDTO>();
+		for(UserStockComment eachcomment:comments) {
+			CommentsDTO mapcomments=new CommentsDTO();
+			mapcomments.setUsername(eachcomment.getUser().getUsername());
+			mapcomments.setStockticker(eachcomment.getStock().getStockTicker());
+			mapcomments.setCommentDateTime(eachcomment.getCommentDateTime());
+			mapcomments.setComment(eachcomment.getComment());
+			commentDTOList.add(mapcomments);
+		}
+		return commentDTOList;
+	}
+	
+	@Transactional
+	public void SaveComment(CommentsDTO comment) {
+		UserStockComment newcomment=new UserStockComment();
+		newcomment.setUser(urepo.findByUsername(comment.getUsername()));
+		newcomment.setStock(srepo.findByStockTicker(comment.getStockticker()));
+		newcomment.setCommentDateTime(comment.getCommentDateTime());
+		newcomment.setComment(comment.getComment());
+		crepo.save(newcomment);
 	}
 	
 }
