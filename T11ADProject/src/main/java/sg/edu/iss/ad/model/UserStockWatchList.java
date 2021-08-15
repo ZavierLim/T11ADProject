@@ -21,10 +21,10 @@ public class UserStockWatchList {
 	private long id;
 	
 	//@ManyToMany(mappedBy="UserStockWatchList")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Stock Stock;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private User User;
 	
 //	@OneToMany(mappedBy="UserStockWatchList")

@@ -3,7 +3,7 @@ package sg.edu.iss.ad.DTO;
 public class CommentsDTO {
 	private String Comment;
 	private String username;
-	private long commentDateTime;
+	private String commentDateTime;
 	private String stockticker;
 	public String getComment() {
 		return Comment;
@@ -18,10 +18,10 @@ public class CommentsDTO {
 		this.username = username;
 	}
 
-	public long getCommentDateTime() {
+	public String getCommentDateTime() {
 		return commentDateTime;
 	}
-	public void setCommentDateTime(long commentDateTime) {
+	public void setCommentDateTime(String commentDateTime) {
 		this.commentDateTime = commentDateTime;
 	}
 	public String getStockticker() {
