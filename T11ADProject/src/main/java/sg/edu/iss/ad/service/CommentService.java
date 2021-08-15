@@ -13,6 +13,7 @@ import sg.edu.iss.ad.model.UserStockComment;
 import sg.edu.iss.ad.repository.StockRepository;
 import sg.edu.iss.ad.repository.UserRepository;
 import sg.edu.iss.ad.repository.UserStockCommentRepository;
+import sg.edu.iss.ad.utility.UtilityManager;
 
 @Service
 public class CommentService {
@@ -33,7 +34,7 @@ public class CommentService {
 			CommentsDTO mapcomments=new CommentsDTO();
 			mapcomments.setUsername(eachcomment.getUser().getUsername());
 			mapcomments.setStockticker(eachcomment.getStock().getStockTicker());
-			mapcomments.setCommentDateTime(eachcomment.getCommentDateTime());
+			mapcomments.setCommentDateTime(UtilityManager.UnixToString(eachcomment.getCommentDateTime(),true));
 			mapcomments.setComment(eachcomment.getComment());
 			commentDTOList.add(mapcomments);
 		}
@@ -45,7 +46,7 @@ public class CommentService {
 		UserStockComment newcomment=new UserStockComment();
 		newcomment.setUser(urepo.findByUsername(comment.getUsername()));
 		newcomment.setStock(srepo.findByStockTicker(comment.getStockticker()));
-		newcomment.setCommentDateTime(comment.getCommentDateTime());
+		newcomment.setCommentDateTime(UtilityManager.DateToUnix(comment.getCommentDateTime()));
 		newcomment.setComment(comment.getComment());
 		crepo.save(newcomment);
 	}

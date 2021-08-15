@@ -45,7 +45,7 @@ public class CandleService{
     			&& result.get(i+1).getOpen()<result.get(i+1).getClose() //1 open lesser than 1 close
     			&& result.get(i+1).getOpen()<result.get(i).getClose() //1 open lesser than 0 close
     			&& result.get(i+1).getClose()>result.get(i).getOpen()) { //1 close > 1 open 
-    				Dates.add(UtilityManager.UnixToString(result.get(i+1).getTimestamp()));
+    				Dates.add(UtilityManager.UnixToString(result.get(i+1).getTimestamp(),false));
     		}
 
     	}
@@ -73,7 +73,7 @@ public class CandleService{
     			&& result.get(i+1).getOpen()>result.get(i+1).getClose() //1 open lesser than 1 close
     			&& result.get(i+1).getOpen()>result.get(i).getClose() //1 open more than 0 close
     			&& result.get(i+1).getClose()<result.get(i).getOpen()) { //1 close less than 0 open 
-    				Dates.add(UtilityManager.UnixToString(result.get(i+1).getTimestamp()));   			
+    				Dates.add(UtilityManager.UnixToString(result.get(i+1).getTimestamp(),false));   			
     		}
     	}
     	Collections.reverse(Dates); //to get latest first
@@ -131,7 +131,7 @@ public class CandleService{
     		
     		if(result.get(i).getHigh()>tendayhigh
     			&& isTopHigherThanBottom && isAbsoluteLowerThanHigh ) {
-    			Dates.add(UtilityManager.UnixToString(result.get(i).getTimestamp()));
+    			Dates.add(UtilityManager.UnixToString(result.get(i).getTimestamp(),false));
     		}
     			
     	}
@@ -224,7 +224,7 @@ public class CandleService{
     			&& isBottomLowerThanTop 
     			&& isAbsoluteLowerThanHigh 
     			) {
-    			Dates.add(UtilityManager.UnixToString(result.get(i).getTimestamp()));
+    			Dates.add(UtilityManager.UnixToString(result.get(i).getTimestamp(),false));
     		}
     			
     	}
