@@ -23,6 +23,5 @@ public class UserStockWatchListDTO {
 	public void setStockname(String stockname) {
 		this.stockname = stockname;
 	}
-	
-		
+
 }

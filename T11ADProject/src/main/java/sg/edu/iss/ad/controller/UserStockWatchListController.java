@@ -16,6 +16,7 @@ import sg.edu.iss.ad.DTO.CommentsDTO;
 import sg.edu.iss.ad.DTO.UserStockWatchListDTO;
 import sg.edu.iss.ad.model.UserStockWatchList;
 import sg.edu.iss.ad.repository.UserStockWatchListRepository;
+import sg.edu.iss.ad.service.UserCandleWatchListService;
 import sg.edu.iss.ad.service.UserStockWatchListService;
 
 @RestController
@@ -23,6 +24,9 @@ import sg.edu.iss.ad.service.UserStockWatchListService;
 public class UserStockWatchListController {
 	@Autowired
 	UserStockWatchListService uswlservice;
+
+	@Autowired
+	UserCandleWatchListService ucwlservice;
 	
 	@GetMapping("/watchlist/{username}")
 	public ResponseEntity<List<UserStockWatchListDTO>> getwatchlist(@PathVariable String username){
@@ -38,6 +42,7 @@ public class UserStockWatchListController {
 	
 	@DeleteMapping("/watchlist/delete")
 	public ResponseEntity<UserStockWatchListDTO> deletestockfromwatchlist(@RequestBody UserStockWatchListDTO deletestock){
+		ucwlservice.deletewatchlistbystockwatchlistid(deletestock.getStockticker());
 		uswlservice.deletestockfromwatchlist(deletestock);
 		return ResponseEntity.ok(deletestock);
 	}
