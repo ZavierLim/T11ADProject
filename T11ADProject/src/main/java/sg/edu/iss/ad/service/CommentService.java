@@ -46,7 +46,7 @@ public class CommentService {
 		UserStockComment newcomment=new UserStockComment();
 		newcomment.setUser(urepo.findByUsername(comment.getUsername()));
 		newcomment.setStock(srepo.findByStockTicker(comment.getStockticker()));
-		newcomment.setCommentDateTime(UtilityManager.DateToUnix(comment.getCommentDateTime()));
+		newcomment.setCommentDateTime(Long.parseLong(comment.getCommentDateTime()));
 		newcomment.setComment(comment.getComment());
 		crepo.save(newcomment);
 	}

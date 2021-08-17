@@ -17,10 +17,10 @@ public class UserCandleWatchList {
 	
 	private long DateTimeActive;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Candle Candle;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private UserStockWatchList UserStockWatchList;
 	
 	public UserCandleWatchList() {}
