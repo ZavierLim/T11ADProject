@@ -17,6 +17,10 @@ public class UserCandleWatchListService {
 	public List<UserCandleWatchList> findwatchlistbyusername(UserCandleWatchListDTO ucwldto){
 		return ucwlrepo.findwatchlistbyusernameandticker(ucwldto.getUsername(),ucwldto.getStockticker());
 	}
+
+	public void deletewatchlistbystockwatchlistid(String stockTicker){
+		ucwlrepo.deletewatchlistbystockticker(stockTicker);
+	}
 	
 //	public List<UserCandleWatchListDTO> watchlisttofrontend(String username,String ticker){
 //		
