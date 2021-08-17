@@ -1,6 +1,7 @@
 package sg.edu.iss.ad.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -38,6 +39,7 @@ public class CommentService {
 			mapcomments.setComment(eachcomment.getComment());
 			commentDTOList.add(mapcomments);
 		}
+		Collections.reverse(commentDTOList);
 		return commentDTOList;
 	}
 	
