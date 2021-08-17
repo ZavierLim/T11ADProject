@@ -18,6 +18,7 @@ import sg.edu.iss.ad.model.Stock;
 import sg.edu.iss.ad.model.User;
 import sg.edu.iss.ad.model.UserStockComment;
 import sg.edu.iss.ad.service.CommentService;
+import sg.edu.iss.ad.utility.UtilityManager;
 
 @RestController
 @CrossOrigin
@@ -34,6 +35,7 @@ public class CommentsController {
 	@PostMapping("/comments/{ticker}")
 	public ResponseEntity<CommentsDTO> PostNewComment(@PathVariable String ticker,@RequestBody CommentsDTO comment){
 		cservice.SaveComment(comment);
+		comment.setCommentDateTime(UtilityManager.UnixToDate(Long.parseLong(comment.getCommentDateTime()), true));
 		return ResponseEntity.ok(comment);
 	}
 	

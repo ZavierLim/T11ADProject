@@ -34,6 +34,7 @@ public class UserStockWatchListService {
 			UserStockWatchListDTO stockDTO=new UserStockWatchListDTO();
 			stockDTO.setStockticker(stock.getStock().getStockTicker());
 			stockDTO.setUsername(stock.getUser().getUsername());
+			stockDTO.setStockname(stock.getStock().getStockName());
 			userwatchlistDTO.add(stockDTO);
 		}
 		return userwatchlistDTO;
