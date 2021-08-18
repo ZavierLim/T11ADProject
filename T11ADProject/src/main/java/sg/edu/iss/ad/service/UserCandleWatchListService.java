@@ -11,10 +11,7 @@ import sg.edu.iss.ad.DTO.UserStockWatchListDTO;
 import sg.edu.iss.ad.model.Candle;
 import sg.edu.iss.ad.model.UserCandleWatchList;
 import sg.edu.iss.ad.model.UserStockWatchList;
-import sg.edu.iss.ad.repository.CandleRepository;
-import sg.edu.iss.ad.repository.StockRepository;
-import sg.edu.iss.ad.repository.UserCandleWatchListRepository;
-import sg.edu.iss.ad.repository.UserRepository;
+import sg.edu.iss.ad.repository.*;
 
 import javax.transaction.Transactional;
 
@@ -28,10 +25,7 @@ public class UserCandleWatchListService {
 	CandleRepository crepo;
 
 	@Autowired
-	UserRepository urepo;
-
-	@Autowired
-	StockRepository srepo;
+	UserStockWatchListRepository uswlrepo;
 	
 	public List<UserCandleWatchList> findwatchlistbyusername(UserCandleWatchListDTO ucwldto){
 		return ucwlrepo.findwatchlistbyusernameandticker(ucwldto.getUsername(),ucwldto.getStockticker());
@@ -45,16 +39,13 @@ public class UserCandleWatchListService {
 	}
 
 	public void AutoGenerateCandleWatchList(UserStockWatchListDTO uswlDTO){
-		UserCandleWatchList ucwl = new UserCandleWatchList();
-		UserStockWatchList uswl = new UserStockWatchList();
-		uswl.setUser(urepo.findByUsername(uswlDTO.getUsername()));
-		uswl.setStock(srepo.findByStockTicker(uswlDTO.getStockticker()));
-		uswl.setId(uswl.getId());
+		UserStockWatchList uswl = uswlrepo.FindStockByUserandTicker(uswlDTO.getUsername(),uswlDTO.getStockticker());
 		List<Candle> candleList = crepo.findAll();
 		for (int i = 0; i < 4; i++) {
-			ucwl.setCandle(candleList.get(i));
+			UserCandleWatchList ucwl = new UserCandleWatchList();
+			ucwl.setActive(false);
 			ucwl.setDateTimeActive(new Date().getTime());
-			ucwl.setUserStockWatchList(uswl);
+			ucwl.setCandle(candleList.get(i));
 			ucwl.setUserStockWatchList(uswl);
 			ucwlrepo.save(ucwl);
 		}

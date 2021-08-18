@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35117474-1ccb-45ad-b962-82c889b2cc63" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/controller/UserStockWatchListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/controller/UserStockWatchListController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/repository/UserCandleWatchListRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/repository/UserCandleWatchListRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/controller/UserCandleWatchListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/controller/UserCandleWatchListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/model/UserCandleWatchList.java" beforeDir="false" afterPath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/model/UserCandleWatchList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/service/UserCandleWatchListService.java" beforeDir="false" afterPath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/service/UserCandleWatchListService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -140,7 +141,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628430454735</updated>
-      <workItem from="1628430456969" duration="51434000" />
+      <workItem from="1628430456969" duration="54875000" />
     </task>
     <servers />
   </component>
@@ -163,8 +164,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/service/UserCandleWatchListService.java</url>
-          <line>24</line>
+          <line>34</line>
           <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/controller/UserCandleWatchListController.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/service/UserCandleWatchListService.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
