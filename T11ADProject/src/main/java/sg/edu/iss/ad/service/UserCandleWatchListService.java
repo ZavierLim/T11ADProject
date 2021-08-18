@@ -43,7 +43,7 @@ public class UserCandleWatchListService {
 		UserStockWatchList uswl = uswlrepo.FindStockByUserandTicker(uswlDTO.getUsername(),uswlDTO.getStockticker());
 		List<Candle> candleList = crepo.findAll();
 		//Date now = new Date();
-		for (int i = 1; i < 5; i++) {
+		for (int i = 0; i < 4; i++) {
 			UserCandleWatchList ucwl = new UserCandleWatchList();
 			ucwl.setActive(false);
 			//ucwl.setDateTimeActive(-1);
