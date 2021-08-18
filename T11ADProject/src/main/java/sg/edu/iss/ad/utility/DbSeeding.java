@@ -107,57 +107,43 @@ public class DbSeeding {
 		user2stock2.setStock(srepo.getById(2L));
 		userwatchlistrepo.save(user2stock2);	
 		
-		//user 1 track all 4 candles for AAPL
-		UserCandleWatchList user1stock1candle1=new UserCandleWatchList();
-		user1stock1candle1.setCandle(candlerepo.getById(1L));
-		user1stock1candle1.setDateTimeActive(1628777993);
-		user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(1L));
-		usercandlewatchlistrepo.save(user1stock1candle1);
+		//user 1 AAPL
+		for (long i=1;i<5;i++) {
+			UserCandleWatchList user1stock1candle1=new UserCandleWatchList();
+			user1stock1candle1.setCandle(candlerepo.getById(i));
+			user1stock1candle1.setDateTimeActive(1628777993);
+			user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(1L));
+			user1stock1candle1.setActive(false);
+			usercandlewatchlistrepo.save(user1stock1candle1);			
+		}	
 		
-		UserCandleWatchList user1stock1candle2=new UserCandleWatchList();
-		user1stock1candle2.setCandle(candlerepo.getById(2L));
-		user1stock1candle2.setDateTimeActive(1628777993);
-		user1stock1candle2.setUserStockWatchList(userwatchlistrepo.getById(1L));
-		usercandlewatchlistrepo.save(user1stock1candle2);
-
-		UserCandleWatchList user1stock1candle3=new UserCandleWatchList();
-		user1stock1candle3.setCandle(candlerepo.getById(3L));
-		user1stock1candle3.setDateTimeActive(1628777993);
-		user1stock1candle3.setUserStockWatchList(userwatchlistrepo.getById(1L));
-		usercandlewatchlistrepo.save(user1stock1candle3);
-		
-		UserCandleWatchList user1stock1candle4=new UserCandleWatchList();
-		user1stock1candle4.setCandle(candlerepo.getById(4L));
-		user1stock1candle4.setDateTimeActive(1628777993);
-		user1stock1candle4.setUserStockWatchList(userwatchlistrepo.getById(1L));
-		usercandlewatchlistrepo.save(user1stock1candle4);
-		
-		//User 1 Track candle 3 and 4 for GOOG
-		UserCandleWatchList user1stock2candle3=new UserCandleWatchList();
-		user1stock2candle3.setCandle(candlerepo.getById(3L));
-		user1stock2candle3.setDateTimeActive(1628777993);
-		user1stock2candle3.setUserStockWatchList(userwatchlistrepo.getById(2L));
-		usercandlewatchlistrepo.save(user1stock2candle3);
-		
-		UserCandleWatchList user1stock2candle4=new UserCandleWatchList();
-		user1stock2candle4.setCandle(candlerepo.getById(4L));
-		user1stock2candle4.setDateTimeActive(1628777993);
-		user1stock2candle4.setUserStockWatchList(userwatchlistrepo.getById(2L));
-		usercandlewatchlistrepo.save(user1stock2candle4);
-		
-		//User 2 Track Candle 1 and 2 for AAPL
-		
-		UserCandleWatchList user2stock1candle1=new UserCandleWatchList();
-		user2stock1candle1.setCandle(candlerepo.getById(1L));
-		user2stock1candle1.setDateTimeActive(1628777993);
-		user2stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(3L));
-		usercandlewatchlistrepo.save(user2stock1candle1);
-		
-		UserCandleWatchList user2stock1candle2=new UserCandleWatchList();
-		user2stock1candle2.setCandle(candlerepo.getById(2L));
-		user2stock1candle2.setDateTimeActive(1628777993);
-		user2stock1candle2.setUserStockWatchList(userwatchlistrepo.getById(3L));
-		usercandlewatchlistrepo.save(user2stock1candle2);	
+		//User 1 GOOG
+		for (long i=1;i<5;i++) {
+			UserCandleWatchList user1stock1candle1=new UserCandleWatchList();
+			user1stock1candle1.setCandle(candlerepo.getById(i));
+			user1stock1candle1.setDateTimeActive(1628777993);
+			user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(2L));
+			user1stock1candle1.setActive(false);
+			usercandlewatchlistrepo.save(user1stock1candle1);			
+		}	
+		//User 2 AAPL
+		for (long i=1;i<5;i++) {
+			UserCandleWatchList user1stock1candle1=new UserCandleWatchList();
+			user1stock1candle1.setCandle(candlerepo.getById(i));
+			user1stock1candle1.setDateTimeActive(1628777993);
+			user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(3L));
+			user1stock1candle1.setActive(false);
+			usercandlewatchlistrepo.save(user1stock1candle1);			
+		}	
+		//User 2 GOOG
+		for (long i=1;i<5;i++) {
+			UserCandleWatchList user1stock1candle1=new UserCandleWatchList();
+			user1stock1candle1.setCandle(candlerepo.getById(i));
+			user1stock1candle1.setDateTimeActive(1628777993);
+			user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(4L));
+			user1stock1candle1.setActive(false);
+			usercandlewatchlistrepo.save(user1stock1candle1);			
+		}
 		
 		//set comment for apple stock user 1
 		UserStockComment user1comment=new UserStockComment();
@@ -231,6 +217,29 @@ public class DbSeeding {
 			candletostoreindb.setStock(srepo.getById(1L));
 			chrepo.save(candletostoreindb);
 		}
+		
+		//set history of goog stock, bullish engulfing
+		List<Long> googistorycandle1=cservice.getBullishEngulfingCandleSignalUNIX(cservice.getCandleData("GOOG"));
+		for(Long perhistory:applehistorycandle1) {
+			CandleHistory candletostoreindb=new CandleHistory();
+			candletostoreindb.setDateTimeTrigger(perhistory);
+			candletostoreindb.setCandle(candlerepo.getById(1L));
+			candletostoreindb.setStock(srepo.getById(2L));
+			chrepo.save(candletostoreindb);
+		}
+		
+		//set history of goog stock, Bearish Engulfing
+		List<Long> googhistorycandle2=cservice.getBearishEngulfingCandleSignalUNIX(cservice.getCandleData("GOOG"));
+		for(Long perhistory:applehistorycandle2) {
+			CandleHistory candletostoreindb=new CandleHistory();
+			candletostoreindb.setDateTimeTrigger(perhistory);
+			candletostoreindb.setCandle(candlerepo.getById(2L));
+			candletostoreindb.setStock(srepo.getById(2L));
+			chrepo.save(candletostoreindb);
+		}
+		
+		
+		
 		//set history of goog stock, morningstar
 		List<Long> googhistorycandle3=cservice.getMorningStarCandleUNIX(cservice.getCandleData("AAPL"));
 		for(Long perhistory:googhistorycandle3) {

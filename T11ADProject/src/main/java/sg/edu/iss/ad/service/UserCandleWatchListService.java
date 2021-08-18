@@ -1,5 +1,6 @@
 package sg.edu.iss.ad.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class UserCandleWatchListService {
 		UserStockWatchList uswl = uswlrepo.FindStockByUserandTicker(uswlDTO.getUsername(),uswlDTO.getStockticker());
 		List<Candle> candleList = crepo.findAll();
 		//Date now = new Date();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 1; i < 5; i++) {
 			UserCandleWatchList ucwl = new UserCandleWatchList();
 			ucwl.setActive(false);
 			//ucwl.setDateTimeActive(-1);
@@ -52,7 +53,18 @@ public class UserCandleWatchListService {
 		}
 	}
 	
-//	public List<UserCandleWatchListDTO> watchlisttofrontend(String username,String ticker){
-//		
-//	}
+	public List<UserCandleWatchListDTO> WatchListByUserAndTicker(UserCandleWatchListDTO userinput){
+		List<UserCandleWatchListDTO> tofrontend=new ArrayList<UserCandleWatchListDTO>();
+		List<UserCandleWatchList> allcandles=ucwlrepo.findUserCandleWatchListByStockTickerandUsername(userinput.getStockticker(), userinput.getUsername());
+		for(UserCandleWatchList candle:allcandles) {
+			UserCandleWatchListDTO temp=new UserCandleWatchListDTO();
+			temp.setUsername(candle.getUserStockWatchList().getUser().getUsername());
+			temp.setStockticker(candle.getCandle().getCandleName());
+			temp.setActive(candle.getActive());
+			temp.setCandlename(candle.getCandle().getCandleName());
+			temp.setDatetimeactive(candle.getDateTimeActive());
+			tofrontend.add(temp);
+		}
+		return tofrontend;
+	}
 }

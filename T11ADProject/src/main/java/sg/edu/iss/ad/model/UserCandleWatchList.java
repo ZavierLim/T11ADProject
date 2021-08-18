@@ -59,7 +59,7 @@ public class UserCandleWatchList {
 		UserStockWatchList = userStockWatchList;
 	};
 
-	public boolean isActive() {
+	public boolean getActive() {
 		return Active;
 	}
 

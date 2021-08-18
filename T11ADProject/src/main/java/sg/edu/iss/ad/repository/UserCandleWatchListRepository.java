@@ -16,12 +16,15 @@ public interface UserCandleWatchListRepository extends JpaRepository<UserCandleW
 	public List<UserCandleWatchList> findwatchlistbyusernameandticker(@Param("username") String username,
 																	  @Param("stockticker") String stockticker);
 
-
 	@Modifying
 	@Query("delete from UserCandleWatchList ucwl where ucwl.id=:id")
 	public void deletewatchlistbyId(@Param("id") Long id);
 
 	@Query("select ucwl from UserCandleWatchList ucwl where ucwl.UserStockWatchList.Stock.StockTicker=:stockTicker")
 	public List<UserCandleWatchList> findUserCandleWatchListByStockTicker(@Param("stockTicker") String stockTicker);
+	
+	@Query("select ucwl from UserCandleWatchList ucwl where ucwl.UserStockWatchList.Stock.StockTicker=:stockTicker AND ucwl.UserStockWatchList.User.username=:username")
+	public List<UserCandleWatchList> findUserCandleWatchListByStockTickerandUsername(@Param("stockTicker") String stockTicker,
+																		  @Param("username") String username);
 
 }
