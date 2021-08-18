@@ -5,7 +5,7 @@ public class UserCandleWatchListDTO {
 	private String stockticker;
 	private boolean active;
 	private String candlename;
-	private long datetimeactive;
+	private long datetime;
 	
 	public String getUsername() {
 		return username;
@@ -31,11 +31,11 @@ public class UserCandleWatchListDTO {
 	public void setCandlename(String candlename) {
 		this.candlename = candlename;
 	}
-	public long getDatetimeactive() {
-		return datetimeactive;
+	public long getDatetime() {
+		return datetime;
 	}
-	public void setDatetimeactive(long datetimeactive) {
-		this.datetimeactive = datetimeactive;
+	public void setDatetime(long datetimeactive) {
+		this.datetime = datetimeactive;
 	}
 	
 	

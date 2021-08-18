@@ -111,7 +111,7 @@ public class DbSeeding {
 		for (long i=1;i<5;i++) {
 			UserCandleWatchList user1stock1candle1=new UserCandleWatchList();
 			user1stock1candle1.setCandle(candlerepo.getById(i));
-			user1stock1candle1.setDateTimeActive(1628777993);
+	
 			user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(1L));
 			user1stock1candle1.setActive(false);
 			usercandlewatchlistrepo.save(user1stock1candle1);			
@@ -121,7 +121,7 @@ public class DbSeeding {
 		for (long i=1;i<5;i++) {
 			UserCandleWatchList user1stock1candle1=new UserCandleWatchList();
 			user1stock1candle1.setCandle(candlerepo.getById(i));
-			user1stock1candle1.setDateTimeActive(1628777993);
+		
 			user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(2L));
 			user1stock1candle1.setActive(false);
 			usercandlewatchlistrepo.save(user1stock1candle1);			
@@ -130,7 +130,7 @@ public class DbSeeding {
 		for (long i=1;i<5;i++) {
 			UserCandleWatchList user1stock1candle1=new UserCandleWatchList();
 			user1stock1candle1.setCandle(candlerepo.getById(i));
-			user1stock1candle1.setDateTimeActive(1628777993);
+		
 			user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(3L));
 			user1stock1candle1.setActive(false);
 			usercandlewatchlistrepo.save(user1stock1candle1);			
@@ -139,7 +139,7 @@ public class DbSeeding {
 		for (long i=1;i<5;i++) {
 			UserCandleWatchList user1stock1candle1=new UserCandleWatchList();
 			user1stock1candle1.setCandle(candlerepo.getById(i));
-			user1stock1candle1.setDateTimeActive(1628777993);
+		
 			user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(4L));
 			user1stock1candle1.setActive(false);
 			usercandlewatchlistrepo.save(user1stock1candle1);			

@@ -62,7 +62,7 @@ public class UserCandleWatchListService {
 			temp.setStockticker(candle.getCandle().getCandleName());
 			temp.setActive(candle.getActive());
 			temp.setCandlename(candle.getCandle().getCandleName());
-			temp.setDatetimeactive(candle.getDateTimeActive());
+			temp.setDatetime(candle.getDateTimeActive());
 			tofrontend.add(temp);
 		}
 		return tofrontend;
