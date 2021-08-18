@@ -41,10 +41,11 @@ public class UserCandleWatchListService {
 	public void AutoGenerateCandleWatchList(UserStockWatchListDTO uswlDTO){
 		UserStockWatchList uswl = uswlrepo.FindStockByUserandTicker(uswlDTO.getUsername(),uswlDTO.getStockticker());
 		List<Candle> candleList = crepo.findAll();
+		//Date now = new Date();
 		for (int i = 0; i < 4; i++) {
 			UserCandleWatchList ucwl = new UserCandleWatchList();
 			ucwl.setActive(false);
-			ucwl.setDateTimeActive(new Date().getTime());
+			//ucwl.setDateTimeActive(-1);
 			ucwl.setCandle(candleList.get(i));
 			ucwl.setUserStockWatchList(uswl);
 			ucwlrepo.save(ucwl);

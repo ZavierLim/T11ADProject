@@ -53,11 +53,13 @@ public class CandleController {
 //
 //        List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
 
+
         String url = "https://finnhub.io/api/v1/stock/profile2?symbol="+ticker+"&token=c44j0b2ad3i82cb9pe4g";
         RestTemplate restTemplate =new RestTemplate();
         ResponseEntity<String> rawCompanyProfile = restTemplate.getForEntity(url,String.class);
         JSONObject companyProfile = JSON.parseObject(rawCompanyProfile.getBody());
         String companyName = companyProfile.getString("name");
+
         List<CandleModel> result = candleService.getCandleData(ticker);
 
         if (result == null||result.size()==0){
