@@ -59,7 +59,7 @@ public class UserCandleWatchListService {
 		for(UserCandleWatchList candle:allcandles) {
 			UserCandleWatchListDTO temp=new UserCandleWatchListDTO();
 			temp.setUsername(candle.getUserStockWatchList().getUser().getUsername());
-			temp.setStockticker(candle.getCandle().getCandleName());
+			temp.setStockticker(candle.getUserStockWatchList().getStock().getStockTicker());
 			temp.setActive(candle.getActive());
 			temp.setCandlename(candle.getCandle().getCandleName());
 			temp.setDatetime(candle.getDateTimeActive());
