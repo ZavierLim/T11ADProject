@@ -42,7 +42,7 @@ public class UserStockWatchListController {
 	
 	@DeleteMapping("/watchlist/delete")
 	public ResponseEntity<UserStockWatchListDTO> deletestockfromwatchlist(@RequestBody UserStockWatchListDTO deletestock){
-		ucwlservice.deletewatchlistbystockwatchlistid(deletestock.getStockticker());
+		ucwlservice.deleteWatchListBystockTicker(deletestock.getStockticker());
 		uswlservice.deletestockfromwatchlist(deletestock);
 		return ResponseEntity.ok(deletestock);
 	}
