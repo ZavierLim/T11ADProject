@@ -36,4 +36,10 @@ public class UserCandleWatchListController {
 		List<UserCandleWatchListDTO> candlewatchlist=ucwlservice.WatchListByUserAndTicker(input);
 		return ResponseEntity.ok(candlewatchlist);
 	}
+	
+	@PostMapping("/watchlist/candlewatchlist/update")
+	public ResponseEntity<List<UserCandleWatchListDTO>> updatecandledata(@RequestBody List<UserCandleWatchListDTO> input){
+		List<UserCandleWatchListDTO> updatedcandlewatchlist=ucwlservice.UpdateUserWatchList(input);
+		return ResponseEntity.ok(updatedcandlewatchlist);
+	}
 }
