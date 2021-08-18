@@ -3,6 +3,7 @@ package sg.edu.iss.ad.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,6 +15,10 @@ public interface UserCandleWatchListRepository extends JpaRepository<UserCandleW
 																	  @Param("stockticker") String stockticker);
 
 
-	@Query("delete from UserCandleWatchList ucwl where ucwl.UserStockWatchList.Stock.StockTicker=:stockTicker")
-	public void deletewatchlistbystockticker(@Param("stockTicker") String stockTicker);
+	@Modifying
+	@Query("delete from UserCandleWatchList ucwl where ucwl.id=:id")
+	public void deletewatchlistbyId(@Param("id") Long id);
+
+	@Query("select ucwl from UserCandleWatchList ucwl where ucwl.UserStockWatchList.Stock.StockTicker=:stockTicker")
+	public List<UserCandleWatchList> findUserCandleWatchListByStockTicker(@Param("stockTicker") String stockTicker);
 }
