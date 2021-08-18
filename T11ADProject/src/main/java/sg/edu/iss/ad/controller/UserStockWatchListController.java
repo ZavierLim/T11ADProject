@@ -36,8 +36,8 @@ public class UserStockWatchListController {
 	
 	@PostMapping("/watchlist/add")
 	public ResponseEntity<UserStockWatchListDTO> addstocktowatchlist(@RequestBody UserStockWatchListDTO addstock){
-		ucwlservice.AutoGenerateCandleWatchList(addstock);
 		uswlservice.addstocktowatchlist(addstock);
+		ucwlservice.AutoGenerateCandleWatchList(addstock);
 		return ResponseEntity.ok(addstock);
 	}
 	
