@@ -49,7 +49,7 @@ public class UserStockWatchListService {
 		if(srepo.findByStockTicker(newstock.getStockticker())==null) {
 			Stock stocktoadd=new Stock();
 			stocktoadd.setStockTicker(newstock.getStockticker());
-			stocktoadd.setStockName(newstock.getStockticker());
+			stocktoadd.setStockName(newstock.getStockname());
 			srepo.save(stocktoadd);
 		}
 		
