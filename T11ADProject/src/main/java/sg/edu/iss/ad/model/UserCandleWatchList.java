@@ -16,6 +16,8 @@ public class UserCandleWatchList {
 	private long id;
 	
 	private long DateTimeActive;
+
+	private boolean Active;
 	
 	@ManyToOne
 	private Candle Candle;
@@ -56,6 +58,12 @@ public class UserCandleWatchList {
 	public void setUserStockWatchList(UserStockWatchList userStockWatchList) {
 		UserStockWatchList = userStockWatchList;
 	};
-	
-	
+
+	public boolean isActive() {
+		return Active;
+	}
+
+	public void setActive(boolean active) {
+		Active = active;
+	}
 }
