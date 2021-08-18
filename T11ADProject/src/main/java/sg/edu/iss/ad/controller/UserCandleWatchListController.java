@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import sg.edu.iss.ad.DTO.UserCandleWatchListDTO;
+import sg.edu.iss.ad.DTO.UserStockWatchListDTO;
 import sg.edu.iss.ad.model.UserCandleWatchList;
 import sg.edu.iss.ad.service.UserCandleWatchListService;
 
@@ -20,6 +21,15 @@ import sg.edu.iss.ad.service.UserCandleWatchListService;
 public class UserCandleWatchListController {
 	@Autowired
 	UserCandleWatchListService ucwlservice;
+
+	@PostMapping("/watchlist/autoAddCandle")
+	public void autoAddCandle(String username,String stockname,String stockticker){
+		UserStockWatchListDTO uswlDTO = new UserStockWatchListDTO();
+		uswlDTO.setStockname(stockname);
+		uswlDTO.setUsername(username);
+		uswlDTO.setStockticker(stockticker);
+		ucwlservice.AutoGenerateCandleWatchList(uswlDTO);
+	}
 	
 //	@PostMapping("/watchlist/candlewatchlist")
 //	
