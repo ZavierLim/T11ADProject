@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import sg.edu.iss.ad.DTO.ExistingUserDTO;
 import sg.edu.iss.ad.model.User;
 import sg.edu.iss.ad.service.UserService;
 
@@ -77,6 +78,22 @@ public class UserController {
 		}
 
 		return ResponseEntity.badRequest().body(null);
+	}
+	
+	@PostMapping("/users/validate")
+	public ResponseEntity<ExistingUserDTO> register(@RequestBody User user){
+		Boolean existing=Uservice.findexistinguser(user);
+		ExistingUserDTO toreturn=new ExistingUserDTO();
+		
+		if(existing) {
+			toreturn.setExist(true);
+			toreturn.setUsername(user.getUsername());
+		}
+		else {
+			toreturn.setExist(false);
+			toreturn.setUsername(user.getUsername());
+		}
+		return ResponseEntity.ok(toreturn);	
 	}
 	
 	

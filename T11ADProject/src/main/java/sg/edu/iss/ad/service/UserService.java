@@ -68,4 +68,14 @@ public class UserService {
 		javaMailSender.send(simpleMailMessage);
 	}
 	
+	public Boolean findexistinguser(User user) {
+		User isuserexisting=urepo.findByUsername(user.getUsername());
+		//if username used, return true
+		if(isuserexisting!=null) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 }
