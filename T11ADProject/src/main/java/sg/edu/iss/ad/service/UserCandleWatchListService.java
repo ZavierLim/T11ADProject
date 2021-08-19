@@ -64,7 +64,10 @@ public class UserCandleWatchListService {
 			temp.setStockticker(candle.getUserStockWatchList().getStock().getStockTicker());
 			temp.setActive(candle.getActive());
 			temp.setCandlename(candle.getCandle().getCandleName());
-			temp.setDatetime(String.valueOf(candle.getDateTimeActive()));
+			if(candle.getDateTimeActive()!=0L)
+				temp.setDatetime(UtilityManager.UnixToString(candle.getDateTimeActive(), true));
+			else
+				temp.setDatetime("0");
 			tofrontend.add(temp);
 		}
 		return tofrontend;
