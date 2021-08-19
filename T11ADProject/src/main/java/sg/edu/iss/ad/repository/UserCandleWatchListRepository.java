@@ -27,4 +27,7 @@ public interface UserCandleWatchListRepository extends JpaRepository<UserCandleW
 	public List<UserCandleWatchList> findUserCandleWatchListByStockTickerandUsername(@Param("stockTicker") String stockTicker,
 																		  @Param("username") String username);
 
+	@Query("select ucwl from UserCandleWatchList ucwl where ucwl.UserStockWatchList.User.username=:username")
+	public List<UserCandleWatchList> findUserCandleWatchListByUsername(@Param("username") String username);
+	
 }

@@ -1,5 +1,6 @@
 package sg.edu.iss.ad.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -7,7 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import sg.edu.iss.ad.DTO.CandleHistoryDTO;
+import sg.edu.iss.ad.model.CandleHistory;
 import sg.edu.iss.ad.model.CandleModel;
+import sg.edu.iss.ad.model.UserCandleWatchList;
+import sg.edu.iss.ad.repository.CandleHistoryRepository;
+import sg.edu.iss.ad.repository.UserCandleWatchListRepository;
 import sg.edu.iss.ad.utility.candleDataConvertor;
 import sg.edu.iss.ad.utility.UtilityManager;
 
@@ -19,8 +26,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CandleService{
+	@Autowired
+	UserCandleWatchListRepository uwclrepo;
+	
+	@Autowired
+	CandleHistoryRepository chrepo;
 
     public List<CandleModel> getCandleData(String ticker) {
         String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
@@ -282,5 +296,32 @@ public class CandleService{
     	Collections.reverse(Dates); //to get latest first
     	return Dates;
     }
+    
+    @Transactional
+    public List<CandleHistoryDTO> getcandlehistory(String username,String stockticker){
+    	//this is all the stocks regardless true or false
+    	List<UserCandleWatchList> candlewatchlist=uwclrepo.findUserCandleWatchListByUsername(username);
+    	List<CandleHistoryDTO> tofrontend=new ArrayList<CandleHistoryDTO>();
+    	for(UserCandleWatchList candle:candlewatchlist) {
+    		//if true, to return the datetimetrigger for that stock and candle
+    		if(candle.getActive()==true && candle.getUserStockWatchList().getUser().getUsername().toString().equals(username)
+    				&& candle.getUserStockWatchList().getStock().getStockTicker().equals(stockticker.toUpperCase())) {    			
+    			List<CandleHistory> candlehistory=chrepo.getcandlehistory(candle.getUserStockWatchList().getStock().getStockTicker());
+    			//for each history, create a record and append to frontend
+    			for(CandleHistory ch:candlehistory) {
+        			CandleHistoryDTO toadd=new CandleHistoryDTO();
+        			toadd.setCandle(candle.getCandle().getCandleName());
+        			toadd.setUsername(username);
+        			toadd.setDatetime(UtilityManager.UnixToString(ch.getDateTimeTrigger(), false));
+        			//toadd.setDatetime(String.valueOf(ch.getDateTimeTrigger()));
+        			toadd.setStockticker(candle.getUserStockWatchList().getStock().getStockTicker());
+        			toadd.setStockname(candle.getUserStockWatchList().getStock().getStockName());
+        			tofrontend.add(toadd);
+    			}    			
+    		}
+    	}
+		return tofrontend;    
+    }
+    
     
 }

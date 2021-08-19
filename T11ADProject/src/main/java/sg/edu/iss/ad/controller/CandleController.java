@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 
+import sg.edu.iss.ad.DTO.CandleHistoryDTO;
 import sg.edu.iss.ad.model.CandleModel;
 import sg.edu.iss.ad.service.CandleService;
 import sg.edu.iss.ad.utility.candleDataConvertor;
@@ -138,21 +139,9 @@ public class CandleController {
         return dates;
     }
     
-    //when the user adds to watchlist
-    //1. get the stock symbol
-    //2. use API to get the 200 day data
-    //3. store the stock symbol into userStockWatchList
-    //4. calculate using service class the 4 candlesticks using Closing-opening, opening - closing
-    //5. Store the candlehistory if 4. returns true
-    
-    //2nd method - when user adds to watchlist
-    //1. get the stock symbol
-    //2. use the api , store into userStock
-    
-    //-when the user clicks' track' candle in the watchlist
-    //1. post request sent from front end - bullish engulfing
-    //2. add the candle into UserCandleWatchList
-    //3. then we call the API and store all the CandleHistory
-    
-    //- when the user logs in.call the api for all the stocks
+    @PostMapping("/candlehistory")
+    public ResponseEntity<List<CandleHistoryDTO>> getCandleHistoryByWatchList(@RequestBody CandleHistoryDTO userinput){
+    	List<CandleHistoryDTO> allcandlehistory=candleService.getcandlehistory(userinput.getUsername(),userinput.getStockticker());
+    	return ResponseEntity.ok(allcandlehistory);
+    }
 }
