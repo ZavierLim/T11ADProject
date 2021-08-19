@@ -6,8 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import org.springframework.scheduling.annotation.EnableScheduling;
 import sg.edu.iss.ad.utility.DbSeeding;
 
+@EnableScheduling
 @SpringBootApplication
 public class T11AdProjectApplication {
 
