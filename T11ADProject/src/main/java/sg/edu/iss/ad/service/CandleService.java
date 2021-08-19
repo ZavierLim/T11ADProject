@@ -42,8 +42,8 @@ public class CandleService{
         HttpHeaders headers=new HttpHeaders();
         headers.add("Accept","application/json");
         //headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
-        //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
-        headers.add("x-api-key","3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r");
+        headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
+        //headers.add("x-api-key","3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r");
         
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
         ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
@@ -57,11 +57,12 @@ public class CandleService{
     public List<String> getBullishEngulfingCandleSignal(List<CandleModel> result){
     	List<String> Dates= new ArrayList<>();
     	for(int i=0;i<200-1;i++) {
-    		if(result.get(i).getOpen()<result.get(i).getClose() //0 opening lesser than 0 close
+    		if(result.get(i).getOpen()>result.get(i).getClose() //0 opening lesser than 0 close
     			&& result.get(i+1).getOpen()<result.get(i+1).getClose() //1 open lesser than 1 close
     			&& result.get(i+1).getOpen()<result.get(i).getClose() //1 open lesser than 0 close
     			&& result.get(i+1).getClose()>result.get(i).getOpen()) { //1 close > 1 open 
     				Dates.add(UtilityManager.UnixToString(result.get(i+1).getTimestamp(),false));
+    				System.out.println(result.get(i+1).getTimestamp());
     		}
 
     	}
@@ -72,10 +73,10 @@ public class CandleService{
     public List<Long> getBullishEngulfingCandleSignalUNIX(List<CandleModel> result){
     	List<Long> timestamps= new ArrayList<>();
     	for(int i=0;i<200-1;i++) {
-    		if(result.get(i).getOpen()<result.get(i).getClose() //0 opening lesser than 0 close
-    			&& result.get(i+1).getOpen()<result.get(i+1).getClose() //1 open lesser than 1 close
-    			&& result.get(i+1).getOpen()<result.get(i).getClose() //1 open lesser than 0 close
-    			&& result.get(i+1).getClose()>result.get(i).getOpen()) { //1 close > 1 open 
+    		if(result.get(i).getOpen()>result.get(i).getClose() //0 opening lesser than 0 close
+    				&& result.get(i+1).getOpen()<result.get(i+1).getClose() //1 open lesser than 1 close
+    				&& result.get(i+1).getOpen()<result.get(i).getClose() //1 open lesser than 0 close
+    				&& result.get(i+1).getClose()>result.get(i).getOpen()) { //1 close > 1 open 
     				timestamps.add(result.get(i+1).getTimestamp());
     		}
     	}
@@ -85,8 +86,8 @@ public class CandleService{
     public List<String> getBearishEngulfingCandleSignal(List<CandleModel> result){
        	List<String> Dates= new ArrayList<>();
     	for(int i=0;i<200-1;i++) {
-    		if(result.get(i).getOpen()>result.get(i).getClose()
-    			&& result.get(i+1).getOpen()>result.get(i+1).getClose() //1 open lesser than 1 close
+    		if(result.get(i).getOpen()<result.get(i).getClose()
+    			&& result.get(i+1).getOpen()>result.get(i+1).getClose() //1 close lower
     			&& result.get(i+1).getOpen()>result.get(i).getClose() //1 open more than 0 close
     			&& result.get(i+1).getClose()<result.get(i).getOpen()) { //1 close less than 0 open 
     				Dates.add(UtilityManager.UnixToString(result.get(i+1).getTimestamp(),false));   			
@@ -99,7 +100,7 @@ public class CandleService{
     public List<Long> getBearishEngulfingCandleSignalUNIX(List<CandleModel> result){
        	List<Long> Dates= new ArrayList<>();
     	for(int i=0;i<200-1;i++) {
-    		if(result.get(i).getOpen()>result.get(i).getClose()
+    		if(result.get(i).getOpen()<result.get(i).getClose()
     			&& result.get(i+1).getOpen()>result.get(i+1).getClose() //1 open lesser than 1 close
     			&& result.get(i+1).getOpen()>result.get(i).getClose() //1 open more than 0 close
     			&& result.get(i+1).getClose()<result.get(i).getOpen()) { //1 close less than 0 open 
@@ -301,26 +302,40 @@ public class CandleService{
     public List<CandleHistoryDTO> getcandlehistory(String username,String stockticker){
     	//this is all the stocks regardless true or false
     	List<UserCandleWatchList> candlewatchlist=uwclrepo.findUserCandleWatchListByUsername(username);
+    	//create new list
     	List<CandleHistoryDTO> tofrontend=new ArrayList<CandleHistoryDTO>();
+    	
+    	//for each history
     	for(UserCandleWatchList candle:candlewatchlist) {
-    		//if true, to return the datetimetrigger for that stock and candle
+    		//if candle is active: 
     		if(candle.getActive()==true && candle.getUserStockWatchList().getUser().getUsername().toString().equals(username)
-    				&& candle.getUserStockWatchList().getStock().getStockTicker().equals(stockticker.toUpperCase())) {    			
-    			List<CandleHistory> candlehistory=chrepo.getcandlehistory(candle.getUserStockWatchList().getStock().getStockTicker());
-    			//for each history, create a record and append to frontend
+    				&& candle.getUserStockWatchList().getStock().getStockTicker().equals(stockticker.toUpperCase())) {
+    			
+    			//i will get the candle history of that particular stock and candle
+    			List<CandleHistory> candlehistory=chrepo.getcandlehistory(candle.getUserStockWatchList().getStock().getStockTicker(),
+    																		candle.getCandle().getCandleName());
+    			//for each history
     			for(CandleHistory ch:candlehistory) {
+    				//if the stock is equals to the current stock, and 
         			CandleHistoryDTO toadd=new CandleHistoryDTO();
         			toadd.setCandle(candle.getCandle().getCandleName());
         			toadd.setUsername(username);
-        			toadd.setDatetime(UtilityManager.UnixToString(ch.getDateTimeTrigger(), false));
-        			//toadd.setDatetime(String.valueOf(ch.getDateTimeTrigger()));
+        			//toadd.setDatetime(UtilityManager.UnixToDate(ch.getDateTimeTrigger(), false));
+        			toadd.setDatetime(String.valueOf(ch.getDateTimeTrigger()));
         			toadd.setStockticker(candle.getUserStockWatchList().getStock().getStockTicker());
         			toadd.setStockname(candle.getUserStockWatchList().getStock().getStockName());
         			tofrontend.add(toadd);
     			}    			
     		}
     	}
-		return tofrontend;    
+    	List<CandleHistoryDTO>tofrontend2= tofrontend.stream()
+    	        .sorted(Comparator.comparing(CandleHistoryDTO::getDatetime).reversed())
+    	        .collect(Collectors.toList());
+    	for(CandleHistoryDTO format:tofrontend2){
+    		String toset=UtilityManager.UnixToDate(Long.parseLong(format.getDatetime()),false);
+    		format.setDatetime(toset);
+    	}
+		return tofrontend2;    
     }
     
     

@@ -40,9 +40,9 @@ public class UtilityManager {
 		LocalDateTime ldt= LocalDateTime.ofEpochSecond(unixTime, 0, ZoneOffset.ofHours(8));
 		String DATE_FORMATTER="";
 		if(WithTiming==true)
-			DATE_FORMATTER="dd MM yyyy HH:mm";
+			DATE_FORMATTER="dd MMM yyyy HH:mm";
 		if(WithTiming==false)
-			DATE_FORMATTER="dd MM yyyy";
+			DATE_FORMATTER="dd MMM yyyy";
 		DateTimeFormatter formatter=DateTimeFormatter.ofPattern(DATE_FORMATTER);
 		return ldt.format(formatter);
 	}

@@ -141,7 +141,8 @@ public class DbSeeding {
 			user1stock1candle1.setCandle(candlerepo.getById(i));
 		
 			user1stock1candle1.setUserStockWatchList(userwatchlistrepo.getById(4L));
-			user1stock1candle1.setActive(false);
+			user1stock1candle1.setActive(true);
+			user1stock1candle1.setDateTimeActive(1607610600);
 			usercandlewatchlistrepo.save(user1stock1candle1);			
 		}
 		
@@ -181,83 +182,83 @@ public class DbSeeding {
 		//set history of apple stock, bullish engulfing
 		List<Long> applehistorycandle1=cservice.getBullishEngulfingCandleSignalUNIX(cservice.getCandleData("AAPL"));
 		for(Long perhistory:applehistorycandle1) {
-			CandleHistory candletostoreindb=new CandleHistory();
-			candletostoreindb.setDateTimeTrigger(perhistory);
-			candletostoreindb.setCandle(candlerepo.getById(1L));
-			candletostoreindb.setStock(srepo.getById(1L));
-			chrepo.save(candletostoreindb);
+			CandleHistory candletostoreindb1=new CandleHistory();
+			candletostoreindb1.setDateTimeTrigger(perhistory);
+			candletostoreindb1.setCandle(candlerepo.getById(1L));
+			candletostoreindb1.setStock(srepo.getById(1L));
+			chrepo.save(candletostoreindb1);
 		}
 		
 		//set history of apple stock, Bearish Engulfing
 		List<Long> applehistorycandle2=cservice.getBearishEngulfingCandleSignalUNIX(cservice.getCandleData("AAPL"));
 		for(Long perhistory:applehistorycandle2) {
-			CandleHistory candletostoreindb=new CandleHistory();
-			candletostoreindb.setDateTimeTrigger(perhistory);
-			candletostoreindb.setCandle(candlerepo.getById(2L));
-			candletostoreindb.setStock(srepo.getById(1L));
-			chrepo.save(candletostoreindb);
+			CandleHistory candletostoreindb2=new CandleHistory();
+			candletostoreindb2.setDateTimeTrigger(perhistory);
+			candletostoreindb2.setCandle(candlerepo.getById(2L));
+			candletostoreindb2.setStock(srepo.getById(1L));
+			chrepo.save(candletostoreindb2);
 		}
 		
 		//Set history of apple stock, Morning
 		List<Long> applehistorycandle3=cservice.getMorningStarCandleUNIX(cservice.getCandleData("AAPL"));
 		for(Long perhistory:applehistorycandle3) {
-			CandleHistory candletostoreindb=new CandleHistory();
-			candletostoreindb.setDateTimeTrigger(perhistory);
-			candletostoreindb.setCandle(candlerepo.getById(3L));
-			candletostoreindb.setStock(srepo.getById(1L));
-			chrepo.save(candletostoreindb);
+			CandleHistory candletostoreindb3=new CandleHistory();
+			candletostoreindb3.setDateTimeTrigger(perhistory);
+			candletostoreindb3.setCandle(candlerepo.getById(3L));
+			candletostoreindb3.setStock(srepo.getById(1L));
+			chrepo.save(candletostoreindb3);
 		}
 		
 		//Set history of apple stock eveningstar
 		List<Long> applehistorycandle4=cservice.getEveningStarUNIX(cservice.getCandleData("AAPL"));
 		for(Long perhistory:applehistorycandle4) {
-			CandleHistory candletostoreindb=new CandleHistory();
-			candletostoreindb.setDateTimeTrigger(perhistory);
-			candletostoreindb.setCandle(candlerepo.getById(4L));
-			candletostoreindb.setStock(srepo.getById(1L));
-			chrepo.save(candletostoreindb);
+			CandleHistory candletostoreindb4=new CandleHistory();
+			candletostoreindb4.setDateTimeTrigger(perhistory);
+			candletostoreindb4.setCandle(candlerepo.getById(4L));
+			candletostoreindb4.setStock(srepo.getById(1L));
+			chrepo.save(candletostoreindb4);
 		}
 		
 		//set history of goog stock, bullish engulfing
 		List<Long> googistorycandle1=cservice.getBullishEngulfingCandleSignalUNIX(cservice.getCandleData("GOOG"));
-		for(Long perhistory:applehistorycandle1) {
-			CandleHistory candletostoreindb=new CandleHistory();
-			candletostoreindb.setDateTimeTrigger(perhistory);
-			candletostoreindb.setCandle(candlerepo.getById(1L));
-			candletostoreindb.setStock(srepo.getById(2L));
-			chrepo.save(candletostoreindb);
+		for(Long perhistory:googistorycandle1) {
+			CandleHistory candletostoreindb5=new CandleHistory();
+			candletostoreindb5.setDateTimeTrigger(perhistory);
+			candletostoreindb5.setCandle(candlerepo.getById(1L));
+			candletostoreindb5.setStock(srepo.getById(2L));
+			chrepo.save(candletostoreindb5);
 		}
 		
 		//set history of goog stock, Bearish Engulfing
 		List<Long> googhistorycandle2=cservice.getBearishEngulfingCandleSignalUNIX(cservice.getCandleData("GOOG"));
-		for(Long perhistory:applehistorycandle2) {
-			CandleHistory candletostoreindb=new CandleHistory();
-			candletostoreindb.setDateTimeTrigger(perhistory);
-			candletostoreindb.setCandle(candlerepo.getById(2L));
-			candletostoreindb.setStock(srepo.getById(2L));
-			chrepo.save(candletostoreindb);
+		for(Long perhistory:googhistorycandle2) {
+			CandleHistory candletostoreindb6=new CandleHistory();
+			candletostoreindb6.setDateTimeTrigger(perhistory);
+			candletostoreindb6.setCandle(candlerepo.getById(2L));
+			candletostoreindb6.setStock(srepo.getById(2L));
+			chrepo.save(candletostoreindb6);
 		}
 		
 		
 		
 		//set history of goog stock, morningstar
-		List<Long> googhistorycandle3=cservice.getMorningStarCandleUNIX(cservice.getCandleData("AAPL"));
+		List<Long> googhistorycandle3=cservice.getMorningStarCandleUNIX(cservice.getCandleData("GOOG"));
 		for(Long perhistory:googhistorycandle3) {
-			CandleHistory candletostoreindb=new CandleHistory();
-			candletostoreindb.setDateTimeTrigger(perhistory);
-			candletostoreindb.setCandle(candlerepo.getById(3L));
-			candletostoreindb.setStock(srepo.getById(2L));
-			chrepo.save(candletostoreindb);
+			CandleHistory candletostoreindb7=new CandleHistory();
+			candletostoreindb7.setDateTimeTrigger(perhistory);
+			candletostoreindb7.setCandle(candlerepo.getById(3L));
+			candletostoreindb7.setStock(srepo.getById(2L));
+			chrepo.save(candletostoreindb7);
 		}
 
 		//set history of goog stock, eveningstar
-		List<Long> googhistorycandle4=cservice.getEveningStarUNIX(cservice.getCandleData("AAPL"));
+		List<Long> googhistorycandle4=cservice.getEveningStarUNIX(cservice.getCandleData("GOOG"));
 		for(Long perhistory:googhistorycandle4) {
-			CandleHistory candletostoreindb=new CandleHistory();
-			candletostoreindb.setDateTimeTrigger(perhistory);
-			candletostoreindb.setCandle(candlerepo.getById(4L));
-			candletostoreindb.setStock(srepo.getById(2L));
-			chrepo.save(candletostoreindb);
+			CandleHistory candletostoreindb8=new CandleHistory();
+			candletostoreindb8.setDateTimeTrigger(perhistory);
+			candletostoreindb8.setCandle(candlerepo.getById(4L));
+			candletostoreindb8.setStock(srepo.getById(2L));
+			chrepo.save(candletostoreindb8);
 		}
 		
 	}
