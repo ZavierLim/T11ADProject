@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import sg.edu.iss.ad.model.CandleHistory;
 
 public interface CandleHistoryRepository extends JpaRepository<CandleHistory, Long> {
-	@Query("Select ch from CandleHistory ch WHERE ch.Stock.StockTicker=:stockticker")
-	public List<CandleHistory> getcandlehistory(@Param("stockticker") String stockticker);
+	@Query("Select ch from CandleHistory ch WHERE ch.Stock.StockTicker=:stockticker AND ch.Candle.CandleName=:candlename")
+	public List<CandleHistory> getcandlehistory(@Param("stockticker") String stockticker,
+												@Param("candlename") String candlename);
 }
