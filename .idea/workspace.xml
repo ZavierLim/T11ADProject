@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35117474-1ccb-45ad-b962-82c889b2cc63" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/service/CandleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/service/CandleService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/utility/CandleScheduleTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/T11ADProject/src/main/java/sg/edu/iss/ad/utility/CandleScheduleTask.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import sg.edu.iss.ad.model.*;
+import sg.edu.iss.ad.repository.CandleHistoryRepository;
 import sg.edu.iss.ad.repository.UserCandleWatchListRepository;
 import sg.edu.iss.ad.repository.UserStockWatchListRepository;
 import sg.edu.iss.ad.service.CandleService;
@@ -20,6 +21,7 @@ public class CandleScheduleTask {
 
     private CandleService candleService;
     private UserCandleWatchListRepository userCandleWatchListRepository;
+    private CandleHistoryRepository candleHistoryRepository;
 
     @Autowired
     public void setCandleService(CandleService cs) {
@@ -27,20 +29,15 @@ public class CandleScheduleTask {
     }
 
     @Autowired
-    public void setUserCandleWatchListRepository(UserCandleWatchListRepository userCandleWatchListRepository) {
-        this.userCandleWatchListRepository = userCandleWatchListRepository;
+    public void setUserCandleWatchListRepository(UserCandleWatchListRepository ucwlrepo) {
+        this.userCandleWatchListRepository = ucwlrepo;
     }
 
-//    @Scheduled(cron = "*/20 * * * * ?")
-//    public void checkCandle() throws ParseException {
-//        System.out.println("time now: "+new Date());
-//        List<UserCandleWatchList> ucwlLists = userCandleWatchListRepository.findAll();
-//        for (UserCandleWatchList userCandleWatchList : ucwlLists){
-//            if (userCandleWatchList.getActive()){
-//                checkCandle(userCandleWatchList);
-//            }
-//        }
-//    }
+
+    @Autowired
+    public void setCandleHistoryRepository(CandleHistoryRepository chrepo){
+        this.candleHistoryRepository = chrepo;
+    }
 
     private void checkCandle(UserCandleWatchList userCandleWatchList) throws ParseException {
         UserStockWatchList currentUserStockWatchList = userCandleWatchList.getUserStockWatchList();
@@ -48,38 +45,55 @@ public class CandleScheduleTask {
         String currentEmail = currentUser.getEmail();
         String currentTicker = currentUserStockWatchList.getStock().getStockTicker();
         List<CandleModel> result = candleService.getCandleData(currentTicker);
-        List<String> dates;
+        List<Long> dates;
         MailVo mailVo = new MailVo("PCXGudrew@163.com",currentEmail,"","");
 
         /*
          * check if the candle exists and send Email
          * */
         if (userCandleWatchList.getCandle().getId() == 1){
-            dates = candleService.getBullishEngulfingCandleSignal(result);
+            dates = candleService.getBullishEngulfingCandleSignalUNIX(result);
+            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle());
             sendNotification(dates,mailVo);
         }
         else if(userCandleWatchList.getCandle().getId() == 2){
-            dates = candleService.getBearishEngulfingCandleSignal(result);
+            dates = candleService.getBearishEngulfingCandleSignalUNIX(result);
+            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle());
             sendNotification(dates,mailVo);
         }
         else if(userCandleWatchList.getCandle().getId() == 3){
-            dates = candleService.getMorningStarCandle(result);
+            dates = candleService.getMorningStarCandleUNIX(result);
+            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle());
             sendNotification(dates,mailVo);
         }
         else{
-            dates = candleService.getEveningStar(result);
+            dates = candleService.getEveningStarUNIX(result);
+            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle());
             sendNotification(dates,mailVo);
         }
     }
 
-    private void sendNotification(List<String> dates,MailVo mailVo) throws ParseException {
-        String latestTimeCandleAppear = dates.get(0);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月份是MM
-        Date latestDate = simpleDateFormat.parse(latestTimeCandleAppear);
+    private void sendNotification(List<Long> dates,MailVo mailVo) throws ParseException {
+        Long latestCandleDate = dates.get(0);
 
         //check the latestDate and now, if less and a day, sendEmail
-        if (new Date().getTime()-latestDate.getTime()<86400000){
+        if (new Date().getTime()/1000-latestCandleDate<86400){
             candleService.sendEmailNotification(mailVo);
+        }
+    }
+
+    private void updateCandleHistory(List<Long> dates, Stock stock, Candle candle){
+        Long date = dates.get(0);
+        CandleHistory candleHistoryResult = candleHistoryRepository.getCandleHistoryByStockAndCandleAndTime(stock.getId(),candle.getId(),date);
+        if (candleHistoryResult == null){
+            /*
+            * save candle
+            * */
+            CandleHistory candleHistory = new CandleHistory();
+            candleHistory.setCandle(candle);
+            candleHistory.setStock(stock);
+            candleHistory.setDateTimeTrigger(date);
+            candleHistoryRepository.save(candleHistory);
         }
     }
 }

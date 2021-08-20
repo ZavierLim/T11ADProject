@@ -12,4 +12,9 @@ public interface CandleHistoryRepository extends JpaRepository<CandleHistory, Lo
 	@Query("Select ch from CandleHistory ch WHERE ch.Stock.StockTicker=:stockticker AND ch.Candle.CandleName=:candlename")
 	public List<CandleHistory> getcandlehistory(@Param("stockticker") String stockticker,
 												@Param("candlename") String candlename);
+
+	@Query("select ch from CandleHistory ch where ch.Stock.id=:stockId and ch.Candle.id=:candleId and ch.DateTimeTrigger=:datetime")
+	public CandleHistory getCandleHistoryByStockAndCandleAndTime(@Param("stockId") Long stockId,
+																 @Param("candleId") Long candleId,
+																 @Param("datetime") Long datetime);
 }
