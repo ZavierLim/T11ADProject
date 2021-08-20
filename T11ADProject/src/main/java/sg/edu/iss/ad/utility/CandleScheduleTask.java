@@ -31,49 +31,55 @@ public class CandleScheduleTask {
         this.userCandleWatchListRepository = userCandleWatchListRepository;
     }
 
-//    @Scheduled(cron = "*/20 * * * * ?")
-//    public void checkCandle() throws ParseException {
-//        System.out.println("time now: "+new Date());
-//        List<UserCandleWatchList> ucwlLists = userCandleWatchListRepository.findAll();
-//        for (UserCandleWatchList userCandleWatchList : ucwlLists){
-//            if (userCandleWatchList.getActive()){
-//                checkCandleAndSendNotification(userCandleWatchList);
-//            }
-//        }
-//    }
-//
-//    private void checkCandleAndSendNotification(UserCandleWatchList userCandleWatchList) throws ParseException {
-//        UserStockWatchList currentUserStockWatchList = userCandleWatchList.getUserStockWatchList();
-//        User currentUser = currentUserStockWatchList.getUser();
-//        String currentEmail = currentUser.getEmail();
-//        String currentTicker = currentUserStockWatchList.getStock().getStockTicker();
-//        List<CandleModel> result = candleService.getCandleData(currentTicker);
-//        List<String> dates;
-//
-//        /*
-//         * check if the candle exists and send Email
-//         * */
-//        if (userCandleWatchList.getCandle().getId() == 1){
-//            dates = candleService.getBullishEngulfingCandleSignal(result);
-//            String latestTimeCandleAppear = dates.get(0);
-//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");//注意月份是MM
-//            Date latestDate = simpleDateFormat.parse(latestTimeCandleAppear);
-//
-//            //check the latestDate and now, if less and a day, sendEmail
-//            if (new Date().getTime()-latestDate.getTime()<86400000){
-//                /*
-//                * send Notification
-//                * */
-//            }
-//        }
-//        else if(userCandleWatchList.getCandle().getId() == 2){
-//            dates = candleService.getBearishEngulfingCandleSignal(result);
-//        }
-//        else if(userCandleWatchList.getCandle().getId() == 3){
-//            dates = candleService.getMorningStarCandle(result);
-//        }
-//        else{
-//            dates = candleService.getEveningStar(result);
-//        }
-//    }
+    @Scheduled(cron = "*/20 * * * * ?")
+    public void checkCandle() throws ParseException {
+        System.out.println("time now: "+new Date());
+        List<UserCandleWatchList> ucwlLists = userCandleWatchListRepository.findAll();
+        for (UserCandleWatchList userCandleWatchList : ucwlLists){
+            if (userCandleWatchList.getActive()){
+                checkCandle(userCandleWatchList);
+            }
+        }
+    }
+
+    private void checkCandle(UserCandleWatchList userCandleWatchList) throws ParseException {
+        UserStockWatchList currentUserStockWatchList = userCandleWatchList.getUserStockWatchList();
+        User currentUser = currentUserStockWatchList.getUser();
+        String currentEmail = currentUser.getEmail();
+        String currentTicker = currentUserStockWatchList.getStock().getStockTicker();
+        List<CandleModel> result = candleService.getCandleData(currentTicker);
+        List<String> dates;
+        MailVo mailVo = new MailVo("PCXGudrew@163.com",currentEmail,"","");
+
+        /*
+         * check if the candle exists and send Email
+         * */
+        if (userCandleWatchList.getCandle().getId() == 1){
+            dates = candleService.getBullishEngulfingCandleSignal(result);
+            sendNotification(dates,mailVo);
+        }
+        else if(userCandleWatchList.getCandle().getId() == 2){
+            dates = candleService.getBearishEngulfingCandleSignal(result);
+            sendNotification(dates,mailVo);
+        }
+        else if(userCandleWatchList.getCandle().getId() == 3){
+            dates = candleService.getMorningStarCandle(result);
+            sendNotification(dates,mailVo);
+        }
+        else{
+            dates = candleService.getEveningStar(result);
+            sendNotification(dates,mailVo);
+        }
+    }
+
+    private void sendNotification(List<String> dates,MailVo mailVo) throws ParseException {
+        String latestTimeCandleAppear = dates.get(0);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月份是MM
+        Date latestDate = simpleDateFormat.parse(latestTimeCandleAppear);
+
+        //check the latestDate and now, if less and a day, sendEmail
+        if (new Date().getTime()-latestDate.getTime()<86400000){
+            candleService.sendEmailNotification(mailVo);
+        }
+    }
 }
