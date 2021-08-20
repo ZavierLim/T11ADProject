@@ -17,6 +17,8 @@ import sg.edu.iss.ad.model.CandleModel;
 import sg.edu.iss.ad.model.MailVo;
 import sg.edu.iss.ad.model.UserCandleWatchList;
 import sg.edu.iss.ad.repository.CandleHistoryRepository;
+import sg.edu.iss.ad.repository.CandleRepository;
+import sg.edu.iss.ad.repository.StockRepository;
 import sg.edu.iss.ad.repository.UserCandleWatchListRepository;
 import sg.edu.iss.ad.utility.candleDataConvertor;
 import sg.edu.iss.ad.utility.UtilityManager;
@@ -47,9 +49,9 @@ public class CandleService{
         RestTemplate restTemplate =new RestTemplate();
         HttpHeaders headers=new HttpHeaders();
         headers.add("Accept","application/json");
-        headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
+        //headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
         //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
-        //headers.add("x-api-key","3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r");
+        headers.add("x-api-key","3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r");
         
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
         ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
@@ -352,5 +354,58 @@ public class CandleService{
 		simpleMailMessage.setText(mail.getText());
 		javaMailSender.send(simpleMailMessage);
 	}
-    
+	@Autowired
+	CandleRepository crepo;
+	
+	@Autowired
+	StockRepository srepo;
+
+	
+	//save all 4 candle history data
+	public void savecandlehistoryonnewstock(String stockticker) {
+		List<Long> candle1=getBullishEngulfingCandleSignalUNIX(getCandleData(stockticker));
+		for(Long candle:candle1) {
+			CandleHistory candletostoreindb=new CandleHistory();
+			if(candle%100==0) {
+				candletostoreindb.setCandle(crepo.findById(1L).orElse(null));
+				candletostoreindb.setStock(srepo.findByStockTicker(stockticker));
+				candletostoreindb.setDateTimeTrigger(candle);
+				chrepo.save(candletostoreindb);
+			}
+		}
+		List<Long> candle2=getBearishEngulfingCandleSignalUNIX(getCandleData(stockticker));
+		for(Long candle:candle2) {
+			CandleHistory candletostoreindb=new CandleHistory();
+			if(candle%100==0) {
+				candletostoreindb.setCandle(crepo.findById(2L).orElse(null));
+				candletostoreindb.setStock(srepo.findByStockTicker(stockticker));
+				candletostoreindb.setDateTimeTrigger(candle);
+				chrepo.save(candletostoreindb);
+			}
+		}		
+		
+		
+		List<Long> candle3=getMorningStarCandleUNIX(getCandleData(stockticker));
+		for(Long candle:candle3) {
+			CandleHistory candletostoreindb=new CandleHistory();
+			if(candle%100==0) {
+				candletostoreindb.setCandle(crepo.findById(3L).orElse(null));
+				candletostoreindb.setStock(srepo.findByStockTicker(stockticker));
+				candletostoreindb.setDateTimeTrigger(candle);
+				chrepo.save(candletostoreindb);
+			}
+		}
+		
+		List<Long> candle4=getEveningStarUNIX(getCandleData(stockticker));
+		for(Long candle:candle4) {
+			CandleHistory candletostoreindb=new CandleHistory();
+			if(candle%100==0) {
+				candletostoreindb.setCandle(crepo.findById(4L).orElse(null));
+				candletostoreindb.setStock(srepo.findByStockTicker(stockticker));
+				candletostoreindb.setDateTimeTrigger(candle);
+				chrepo.save(candletostoreindb);
+			}
+		}
+		
+	}
 }

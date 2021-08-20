@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.ad.DTO.UserStockWatchListDTO;
+import sg.edu.iss.ad.model.CandleHistory;
 import sg.edu.iss.ad.model.Stock;
 import sg.edu.iss.ad.model.UserStockWatchList;
 import sg.edu.iss.ad.repository.StockRepository;
@@ -25,6 +26,9 @@ public class UserStockWatchListService {
 	
 	@Autowired
 	UserRepository urepo;
+		
+	@Autowired
+	CandleService cservice;
 	
 	//convert to DTO to hide confidential user details
 	public List<UserStockWatchListDTO> getuserstockwatchlist(String username){
@@ -39,18 +43,18 @@ public class UserStockWatchListService {
 		}
 		return userwatchlistDTO;
 	}
-	
 	//convert to DTO before saving
 	@Transactional
 	public void addstocktowatchlist(UserStockWatchListDTO newstock) {
 		UserStockWatchList stock=new UserStockWatchList();
 		
-		//check if newstock added is existing, if not add
+		//check if newstock added is existing, if not add stock into DB
 		if(srepo.findByStockTicker(newstock.getStockticker())==null) {
 			Stock stocktoadd=new Stock();
 			stocktoadd.setStockTicker(newstock.getStockticker());
 			stocktoadd.setStockName(newstock.getStockname());
 			srepo.save(stocktoadd);
+			cservice.savecandlehistoryonnewstock(newstock.getStockticker());
 		}
 		
 		stock.setStock(srepo.findByStockTicker(newstock.getStockticker()));
