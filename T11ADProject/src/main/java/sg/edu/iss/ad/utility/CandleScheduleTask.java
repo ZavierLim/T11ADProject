@@ -81,6 +81,11 @@ public class CandleScheduleTask {
 
     private void updateCandleHistory(List<Long> dates, Stock stock, Candle candle, MailVo mailVo){
         Long date = dates.get(0);
+        /*
+        * check if a candleHistory of same datetime, same stock id, same candle id found.
+        * if not found, save candleHistory and send notification
+        * if found, do nothing
+        * */
         CandleHistory candleHistoryResult = candleHistoryRepository.getCandleHistoryByStockAndCandleAndTime(stock.getId(),candle.getId(),date);
         if (candleHistoryResult == null){
             /*
@@ -91,6 +96,9 @@ public class CandleScheduleTask {
             candleHistory.setStock(stock);
             candleHistory.setDateTimeTrigger(date);
             candleHistoryRepository.save(candleHistory);
+            /*
+            * send notification
+            * */
             candleService.sendEmailNotification(mailVo);
         }
     }
