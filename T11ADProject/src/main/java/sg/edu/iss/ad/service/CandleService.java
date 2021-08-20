@@ -5,6 +5,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -12,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import sg.edu.iss.ad.DTO.CandleHistoryDTO;
 import sg.edu.iss.ad.model.CandleHistory;
 import sg.edu.iss.ad.model.CandleModel;
+import sg.edu.iss.ad.model.MailVo;
 import sg.edu.iss.ad.model.UserCandleWatchList;
 import sg.edu.iss.ad.repository.CandleHistoryRepository;
 import sg.edu.iss.ad.repository.UserCandleWatchListRepository;
@@ -35,6 +38,9 @@ public class CandleService{
 	
 	@Autowired
 	CandleHistoryRepository chrepo;
+
+	@Autowired
+	JavaMailSenderImpl javaMailSender;
 
     public List<CandleModel> getCandleData(String ticker) {
         String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
@@ -337,6 +343,14 @@ public class CandleService{
     	}
 		return tofrontend2;    
     }
-    
+
+	public void sendEmailNotification(MailVo mail) {
+		SimpleMailMessage simpleMailMessage=new SimpleMailMessage();
+		simpleMailMessage.setFrom(mail.getFrom());
+		simpleMailMessage.setTo(mail.getTo());
+		simpleMailMessage.setSubject(mail.getSubject());
+		simpleMailMessage.setText(mail.getText());
+		javaMailSender.send(simpleMailMessage);
+	}
     
 }
