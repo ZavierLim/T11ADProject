@@ -31,16 +31,16 @@ public class CandleScheduleTask {
         this.userCandleWatchListRepository = userCandleWatchListRepository;
     }
 
-    @Scheduled(cron = "*/20 * * * * ?")
-    public void checkCandle() throws ParseException {
-        System.out.println("time now: "+new Date());
-        List<UserCandleWatchList> ucwlLists = userCandleWatchListRepository.findAll();
-        for (UserCandleWatchList userCandleWatchList : ucwlLists){
-            if (userCandleWatchList.getActive()){
-                checkCandle(userCandleWatchList);
-            }
-        }
-    }
+//    @Scheduled(cron = "*/20 * * * * ?")
+//    public void checkCandle() throws ParseException {
+//        System.out.println("time now: "+new Date());
+//        List<UserCandleWatchList> ucwlLists = userCandleWatchListRepository.findAll();
+//        for (UserCandleWatchList userCandleWatchList : ucwlLists){
+//            if (userCandleWatchList.getActive()){
+//                checkCandle(userCandleWatchList);
+//            }
+//        }
+//    }
 
     private void checkCandle(UserCandleWatchList userCandleWatchList) throws ParseException {
         UserStockWatchList currentUserStockWatchList = userCandleWatchList.getUserStockWatchList();
