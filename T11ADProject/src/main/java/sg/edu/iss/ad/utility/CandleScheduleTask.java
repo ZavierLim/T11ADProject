@@ -56,42 +56,30 @@ public class CandleScheduleTask {
         List<CandleModel> result = candleService.getCandleData(currentTicker);
         List<Long> dates;
         MailVo mailVo = new MailVo("PCXGudrew@163.com",currentEmail,"","");
+        boolean sendNotification = false;
 
         /*
          * check if the candle exists and send Email
          * */
         if (userCandleWatchList.getCandle().getId() == 1){
             dates = candleService.getBullishEngulfingCandleSignalUNIX(result);
-            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle());
-            sendNotification(dates,mailVo);
+            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle(),mailVo);
         }
         else if(userCandleWatchList.getCandle().getId() == 2){
             dates = candleService.getBearishEngulfingCandleSignalUNIX(result);
-            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle());
-            sendNotification(dates,mailVo);
+            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle(),mailVo);
         }
         else if(userCandleWatchList.getCandle().getId() == 3){
             dates = candleService.getMorningStarCandleUNIX(result);
-            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle());
-            sendNotification(dates,mailVo);
+            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle(),mailVo);
         }
         else{
             dates = candleService.getEveningStarUNIX(result);
-            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle());
-            sendNotification(dates,mailVo);
+            updateCandleHistory(dates,currentUserStockWatchList.getStock(),userCandleWatchList.getCandle(),mailVo);
         }
     }
 
-    private void sendNotification(List<Long> dates,MailVo mailVo) throws ParseException {
-        Long latestCandleDate = dates.get(0);
-
-        //check the latestDate and now, if less and a day, sendEmail
-        if (new Date().getTime()/1000-latestCandleDate<86400){
-            candleService.sendEmailNotification(mailVo);
-        }
-    }
-
-    private void updateCandleHistory(List<Long> dates, Stock stock, Candle candle){
+    private void updateCandleHistory(List<Long> dates, Stock stock, Candle candle, MailVo mailVo){
         Long date = dates.get(0);
         CandleHistory candleHistoryResult = candleHistoryRepository.getCandleHistoryByStockAndCandleAndTime(stock.getId(),candle.getId(),date);
         if (candleHistoryResult == null){
@@ -103,6 +91,7 @@ public class CandleScheduleTask {
             candleHistory.setStock(stock);
             candleHistory.setDateTimeTrigger(date);
             candleHistoryRepository.save(candleHistory);
+            candleService.sendEmailNotification(mailVo);
         }
     }
 }
