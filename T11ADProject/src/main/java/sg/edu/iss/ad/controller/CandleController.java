@@ -154,17 +154,20 @@ public class CandleController {
         mailVo.setFrom("PCXGudrew@163.com");
         mailVo.setTo(userResult.getEmail());
     	List<CandleHistoryDTO> allcandlehistory=candleService.getcandlehistory(userinput.getUsername(),userinput.getStockticker());
-    	List<CandleHistoryDTO> result = allcandlehistory.stream().filter(ach->ach.getCandle().equals(userinput.getCandle())).sorted().collect(Collectors.toList());
-        String title;
-    	if(result.size()>0){
-            CandleHistoryDTO latestCandle = result.get(0);
-            title = "Latest candle found at "+latestCandle.getDatetime();
+//    	List<CandleHistoryDTO> result = allcandlehistory.stream().filter(ach->ach.getCandle().equals(userinput.getCandle())).sorted().collect(Collectors.toList());
+        String title;//subject
+        String text;
+    	if(allcandlehistory.size()>0){
+            CandleHistoryDTO latestCandle = allcandlehistory.get(0);
+            title = "Candle Notification";
+            text = "Hi "+userResult.getUsername()+", your latest candle type is "+latestCandle.getCandle()+" that appeared on "+latestCandle.getDatetime();
         }
         else{
             title = "No candle found";
+            text = title;
         }
         mailVo.setSubject(title);
-        mailVo.setText(title);
+        mailVo.setText(text);
         userService.sendEmailNotification(mailVo);
         return ResponseEntity.ok(allcandlehistory);
     }
