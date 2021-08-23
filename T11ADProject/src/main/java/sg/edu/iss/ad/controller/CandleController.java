@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,10 @@ import com.alibaba.fastjson.JSON;
 
 import sg.edu.iss.ad.DTO.CandleHistoryDTO;
 import sg.edu.iss.ad.model.CandleModel;
+import sg.edu.iss.ad.model.MailVo;
+import sg.edu.iss.ad.model.User;
 import sg.edu.iss.ad.service.CandleService;
+import sg.edu.iss.ad.service.UserService;
 import sg.edu.iss.ad.utility.candleDataConvertor;
 
 /*
@@ -36,6 +40,9 @@ public class CandleController {
 
     @Autowired
     private CandleService candleService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/getLatestPrice/{ticker}")
     public String getLastestPrice(@PathVariable String ticker){
@@ -141,7 +148,24 @@ public class CandleController {
     
     @PostMapping("/candlehistory")
     public ResponseEntity<List<CandleHistoryDTO>> getCandleHistoryByWatchList(@RequestBody CandleHistoryDTO userinput){
+
+        User userResult = userService.findUserByUsername(userinput.getUsername());
+        MailVo mailVo = new MailVo();
+        mailVo.setFrom("PCXGudrew@163.com");
+        mailVo.setTo(userResult.getEmail());
     	List<CandleHistoryDTO> allcandlehistory=candleService.getcandlehistory(userinput.getUsername(),userinput.getStockticker());
-    	return ResponseEntity.ok(allcandlehistory);
+    	List<CandleHistoryDTO> result = allcandlehistory.stream().filter(ach->ach.getCandle().equals(userinput.getCandle())).sorted().collect(Collectors.toList());
+        String title;
+    	if(result.size()>0){
+            CandleHistoryDTO latestCandle = result.get(0);
+            title = "Latest candle found at "+latestCandle.getDatetime();
+        }
+        else{
+            title = "No candle found";
+        }
+        mailVo.setSubject(title);
+        mailVo.setText(title);
+        userService.sendEmailNotification(mailVo);
+        return ResponseEntity.ok(allcandlehistory);
     }
 }

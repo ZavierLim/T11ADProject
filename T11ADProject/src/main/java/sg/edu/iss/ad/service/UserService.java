@@ -31,6 +31,11 @@ public class UserService {
 	public User FindUser(Long id){
 		return urepo.findById(id).orElse(null);
 	}
+
+	@Transactional
+	public User findUserByUsername(String username){
+		return urepo.findByUsername(username);
+	}
 	
 	public User createUser(User user) {
 		urepo.save(user);
