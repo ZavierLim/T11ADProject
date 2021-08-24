@@ -3,6 +3,7 @@ package sg.edu.iss.ad.controller;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,15 @@ public class StockController {
 
     @GetMapping("/sendEmail")
     public void sendEmail(){
-        MailVo mailVo = new MailVo("PCXGUdrew@163.com","E0696895@U.NUS.EDU","hello","hello");
-        userService.sendEmailNotification(mailVo);
+        MailVo mailVo = new MailVo("PCXGUdrew@163.com","hello","hello","hello");
+        try{
+            userService.sendEmailNotification(mailVo);
+        }
+        catch (MailSendException mse){
+            System.out.println("target mail does not exist.");
+        }
+        catch (Exception e){
+            System.out.println("an error occur.");
+        }
     }
 }

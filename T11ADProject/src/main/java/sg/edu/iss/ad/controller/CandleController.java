@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -168,7 +169,15 @@ public class CandleController {
         }
         mailVo.setSubject(title);
         mailVo.setText(text);
-        userService.sendEmailNotification(mailVo);
+        try{
+            userService.sendEmailNotification(mailVo);
+        }
+        catch (MailSendException mse){
+            System.out.println("target mail does not exist.");
+        }
+        catch (Exception e){
+            System.out.println("an error occur.");
+        }
         return ResponseEntity.ok(allcandlehistory);
     }
 }
