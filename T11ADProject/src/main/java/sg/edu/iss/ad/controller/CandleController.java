@@ -28,11 +28,7 @@ import sg.edu.iss.ad.utility.candleDataConvertor;
 * Harrison's key:   VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7
 * Pan's key:        eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp
 * Wanling's key:    3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r
-<<<<<<< HEAD
 * Zavier's key: 	NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu
-=======
-* Zavier's Key:     NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu
->>>>>>> 911a1f247bf9f7b6bbed411bd57f2d3142d03a77
 * */
 
 @CrossOrigin
@@ -45,24 +41,9 @@ public class CandleController {
     @Autowired
     private UserService userService;
 
+    //Get latest closing price of stock
     @GetMapping("/getLatestPrice/{ticker}")
     public String getLastestPrice(@PathVariable String ticker){
-        //String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=1d&region=US&interval=1d";
-
-//        RestTemplate restTemplate =new RestTemplate();
-//        HttpHeaders headers=new HttpHeaders();
-//        headers.add("Accept","application/json");
-//
-//        headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
-//        //headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
-//        
-//        //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
-//        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
-//        ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
-//
-//        List<CandleModel> result = candleDataConvertor.candleResultToList(rawResult.getBody());
-
-
         String url = "https://finnhub.io/api/v1/stock/profile2?symbol="+ticker+"&token=c44j0b2ad3i82cb9pe4g";
         RestTemplate restTemplate =new RestTemplate();
         ResponseEntity<String> rawCompanyProfile = restTemplate.getForEntity(url,String.class);
@@ -82,30 +63,17 @@ public class CandleController {
         return JSON.toJSONString(latestPrice);
     }
 
+    //Get 200 days close, high,low,open,timestamp,volume
     @GetMapping("/getCandleData/{ticker}")
     public String getCandleData(@PathVariable("ticker") String ticker){
-//        String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
-//
-//        RestTemplate restTemplate =new RestTemplate();
-//        HttpHeaders headers=new HttpHeaders();
-//        headers.add("Accept","application/json");
-//      headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
-//        //headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
-//        //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
-//        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
-//        ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
-
-
         List<CandleModel> result = candleService.getCandleData(ticker);
-
         if (result == null||result.size()==0){
             return JSON.toJSONString("no data");
         }
-        
         return JSON.toJSONString(result);
     }
 
-
+    //Gets the symbol of the stock and stockname
     @GetMapping("/getStockSymbol/{keyword}")
     public String getStockSymbol(@PathVariable String keyword){
         String url = "https://finnhub.io/api/v1/search?q="+keyword+"&token=c44j0b2ad3i82cb9pe4g";
@@ -115,6 +83,7 @@ public class CandleController {
         return JSON.toJSONString(result);
     }
     
+    //Below 4 methods show the dates for the candle signals for counter checking
     @GetMapping("/signalforbullish/{ticker}")
     public List<String> getBullishEngulfingforstock(@PathVariable String ticker) {
         List<CandleModel> result = candleService.getCandleData(ticker);
@@ -147,6 +116,7 @@ public class CandleController {
         return dates;
     }
     
+    //Scan stock and find all signals + send email
     @PostMapping("/candlehistory")
     public ResponseEntity<List<CandleHistoryDTO>> getCandleHistoryByWatchList(@RequestBody CandleHistoryDTO userinput){
 

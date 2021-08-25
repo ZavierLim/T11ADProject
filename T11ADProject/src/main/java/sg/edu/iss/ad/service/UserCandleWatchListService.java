@@ -29,10 +29,12 @@ public class UserCandleWatchListService {
 	@Autowired
 	UserStockWatchListRepository uswlrepo;
 	
+	//Find user WatchList
 	public List<UserCandleWatchList> findwatchlistbyusername(UserCandleWatchListDTO ucwldto){
 		return ucwlrepo.findwatchlistbyusernameandticker(ucwldto.getUsername(),ucwldto.getStockticker());
 	}
-
+	
+	//Delete WatchList
 	public void deleteWatchListBystockTicker(String stockTicker){
 		List<UserCandleWatchList> ucwlList = ucwlrepo.findUserCandleWatchListByStockTicker(stockTicker);
 		for (UserCandleWatchList ucwl:ucwlList){
@@ -40,7 +42,7 @@ public class UserCandleWatchListService {
 		}
 	}
 
-	//used when user add stocks to watchlist
+	//Generate all candles tracking as false when user adds a stock
 	public void AutoGenerateCandleWatchList(UserStockWatchListDTO uswlDTO){
 		UserStockWatchList uswl = uswlrepo.FindStockByUserandTicker(uswlDTO.getUsername(),uswlDTO.getStockticker());
 		List<Candle> candleList = crepo.findAll();
@@ -55,6 +57,7 @@ public class UserCandleWatchListService {
 		}
 	}
 	
+	//Get status of candles based on stock ticker
 	public List<UserCandleWatchListDTO> WatchListByUserAndTicker(UserCandleWatchListDTO userinput){
 		List<UserCandleWatchListDTO> tofrontend=new ArrayList<UserCandleWatchListDTO>();
 		List<UserCandleWatchList> allcandles=ucwlrepo.findUserCandleWatchListByStockTickerandUsername(userinput.getStockticker(), userinput.getUsername());
@@ -73,6 +76,7 @@ public class UserCandleWatchListService {
 		return tofrontend;
 	}
 	
+	//Updates CandleWatchList when user saves candle tracking
 	public List<UserCandleWatchListDTO> UpdateUserWatchList(List<UserCandleWatchListDTO> userinput){
 		List<UserCandleWatchListDTO> tofrontend=new ArrayList<UserCandleWatchListDTO>();
 		List<UserCandleWatchList> allcandles=ucwlrepo.findUserCandleWatchListByStockTickerandUsername(userinput.get(0).getStockticker(), userinput.get(0).getUsername());

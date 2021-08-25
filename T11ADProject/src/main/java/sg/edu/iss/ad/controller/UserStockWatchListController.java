@@ -28,12 +28,14 @@ public class UserStockWatchListController {
 	@Autowired
 	UserCandleWatchListService ucwlservice;
 	
+	//get watchlist by username
 	@GetMapping("/watchlist/{username}")
 	public ResponseEntity<List<UserStockWatchListDTO>> getwatchlist(@PathVariable String username){
 		List<UserStockWatchListDTO> watchlist= uswlservice.getuserstockwatchlist(username);
 		return ResponseEntity.ok(watchlist);
 	}
 	
+	//add stocks into watchlist
 	@PostMapping("/watchlist/add")
 	public ResponseEntity<UserStockWatchListDTO> addstocktowatchlist(@RequestBody UserStockWatchListDTO addstock){
 		uswlservice.addstocktowatchlist(addstock);
@@ -41,6 +43,7 @@ public class UserStockWatchListController {
 		return ResponseEntity.ok(addstock);
 	}
 	
+	//delete stock from watchlist
 	@DeleteMapping("/watchlist/delete")
 	public ResponseEntity<UserStockWatchListDTO> deletestockfromwatchlist(@RequestBody UserStockWatchListDTO deletestock){
 		ucwlservice.deleteWatchListBystockTicker(deletestock.getStockticker());

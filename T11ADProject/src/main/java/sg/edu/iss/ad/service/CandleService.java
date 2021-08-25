@@ -40,18 +40,26 @@ public class CandleService{
 	
 	@Autowired
 	CandleHistoryRepository chrepo;
+	
+	@Autowired
+	CandleRepository crepo;
+	
+	@Autowired
+	StockRepository srepo;
 
 	@Autowired
 	JavaMailSenderImpl javaMailSender;
 
+	//Returns 200 day data of close,high,low,open,timestamp,volume
     public List<CandleModel> getCandleData(String ticker) {
         String url="https://yfapi.net/v8/finance/chart/" + ticker + "?range=200d&region=US&interval=1d";
         RestTemplate restTemplate =new RestTemplate();
         HttpHeaders headers=new HttpHeaders();
         headers.add("Accept","application/json");
         //headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
-        headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
+        //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
         //headers.add("x-api-key","3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r");
+        headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
         
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
         ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
@@ -61,7 +69,7 @@ public class CandleService{
         return result;
     }
     
-    //To get list of bullish engulfing for past 200 days, returns MM-DD-YYYY
+    //Returns MM-DD-YYYY of Bullish Engulfing
     public List<String> getBullishEngulfingCandleSignal(List<CandleModel> result){
     	List<String> Dates= new ArrayList<>();
     	for(int i=0;i<result.size()-1;i++) {
@@ -72,12 +80,11 @@ public class CandleService{
     				Dates.add(UtilityManager.UnixToString(result.get(i+1).getTimestamp(),false));
     				System.out.println(result.get(i+1).getTimestamp());
     		}
-
     	}
     	Collections.reverse(Dates); //to get latest first
     	return Dates;
     }
-    //same as above, returns UNIX
+    //same as above, but return UNIX
     public List<Long> getBullishEngulfingCandleSignalUNIX(List<CandleModel> result){
     	List<Long> timestamps= new ArrayList<>();
     	for(int i=0;i<result.size()-1;i++) {
@@ -91,6 +98,7 @@ public class CandleService{
     	return timestamps;
     }
     
+    //Returns MM-DD-YYYY of Bearish Engulfing
     public List<String> getBearishEngulfingCandleSignal(List<CandleModel> result){
        	List<String> Dates= new ArrayList<>();
     	for(int i=0;i<result.size();i++) {
@@ -119,12 +127,12 @@ public class CandleService{
     	return Dates;
     }
     
-    
+    //Returns MM-DD-YYYY of Evening star candle
     public List<String> getEveningStar(List<CandleModel> result){
     	List<String> Dates=new ArrayList<>();
-    	for(int i=9;i<result.size()-1;i++) {
-    		//1. Find the max for the past 10 days
-    		List<CandleModel> sublist=result.subList(i-9,i);
+    	for(int i=4;i<result.size()-1;i++) {
+    		//1. Find the max for the past 4 days
+    		List<CandleModel> sublist=result.subList(i-4,i);
     		double tendayhigh=0;
     		for(CandleModel close:sublist ) {
     			if(close.getHigh()>tendayhigh)
@@ -167,7 +175,7 @@ public class CandleService{
     public List<Long> getEveningStarUNIX(List<CandleModel> result){
     	List<Long> Dates=new ArrayList<>();
     	for(int i=4;i<result.size()-1;i++) {
-    		//1. Find the max for the past 10 days
+    		//1. Find the max for the past 4 days
     		List<CandleModel> sublist=result.subList(i-4,i);
     		double tendayhigh=0;
     		for(CandleModel close:sublist ) {
@@ -208,10 +216,11 @@ public class CandleService{
     	return Dates;
     }
     
+    //Returns MM-DD-YYYY of MorningStar candle
     public List<String> getMorningStarCandle (List<CandleModel> result){
     	List<String> Dates=new ArrayList<>();
     	for(int i=4;i<result.size()-1;i++) {
-    		//1. Find the min for the past 10 days
+    		//1. Find the min for the past 4 days
     		List<CandleModel> sublist=result.subList(i-4,i);
     		double tendaylow=Double.MAX_VALUE;
     		for(CandleModel close:sublist ) {
@@ -306,6 +315,7 @@ public class CandleService{
     	return Dates;
     }
     
+    //Returns CandleHistory of username and ticker
     @Transactional
     public List<CandleHistoryDTO> getcandlehistory(String username,String stockticker){
     	//this is all the stocks regardless true or false
@@ -346,6 +356,7 @@ public class CandleService{
 		return tofrontend2;    
     }
 
+    //Send Email notification to user after scan candle
 	public void sendEmailNotification(MailVo mail) {
 		SimpleMailMessage simpleMailMessage=new SimpleMailMessage();
 		simpleMailMessage.setFrom(mail.getFrom());
@@ -354,14 +365,8 @@ public class CandleService{
 		simpleMailMessage.setText(mail.getText());
 		javaMailSender.send(simpleMailMessage);
 	}
-	@Autowired
-	CandleRepository crepo;
-	
-	@Autowired
-	StockRepository srepo;
 
-	
-	//save all 4 candle history data
+	//Save all 4 candles signals, only save if market closes
 	public void savecandlehistoryonnewstock(String stockticker) {
 		List<Long> candle1=getBullishEngulfingCandleSignalUNIX(getCandleData(stockticker));
 		for(Long candle:candle1) {
@@ -383,8 +388,6 @@ public class CandleService{
 				chrepo.save(candletostoreindb);
 			}
 		}		
-		
-		
 		List<Long> candle3=getMorningStarCandleUNIX(getCandleData(stockticker));
 		for(Long candle:candle3) {
 			CandleHistory candletostoreindb=new CandleHistory();
@@ -395,7 +398,6 @@ public class CandleService{
 				chrepo.save(candletostoreindb);
 			}
 		}
-		
 		List<Long> candle4=getEveningStarUNIX(getCandleData(stockticker));
 		for(Long candle:candle4) {
 			CandleHistory candletostoreindb=new CandleHistory();

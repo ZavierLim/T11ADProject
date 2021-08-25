@@ -27,21 +27,7 @@ import sg.edu.iss.ad.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService Uservice;
-	
-	@GetMapping("/users")
-	public List<User> Findallusers(){
-		return Uservice.findallUsers();
-	}
-	
-	@GetMapping("/users/{id}")
-	public ResponseEntity<User> Findallusers(@PathVariable Long id){
-		User user= Uservice.FindUser(id);
-		if(user!=null) {
-			return ResponseEntity.ok(user);
-		}
-		return ResponseEntity.badRequest().body(null);
-	}
-	
+		
 	//Create rest api
 	@PostMapping("/users/add")
 	public User createUser(@RequestBody User user) {
@@ -96,5 +82,19 @@ public class UserController {
 		return ResponseEntity.ok(toreturn);	
 	}
 	
+	
+//	@GetMapping("/users")
+//	public List<User> Findallusers(){
+//		return Uservice.findallUsers();
+//	}	
+//	
+//	@GetMapping("/users/{id}")
+//	public ResponseEntity<User> Findallusers(@PathVariable Long id){
+//		User user= Uservice.FindUser(id);
+//		if(user!=null) {
+//			return ResponseEntity.ok(user);
+//		}
+//		return ResponseEntity.badRequest().body(null);
+//	}
 	
 }

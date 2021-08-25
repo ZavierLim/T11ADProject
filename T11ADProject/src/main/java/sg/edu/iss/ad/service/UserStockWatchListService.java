@@ -30,7 +30,7 @@ public class UserStockWatchListService {
 	@Autowired
 	CandleService cservice;
 	
-	//convert to DTO to hide confidential user details
+	//Convert to DTO to hide confidential user details
 	public List<UserStockWatchListDTO> getuserstockwatchlist(String username){
 		List<UserStockWatchList> userwatchlist= uwlrepo.GetWatchList(username);
 		List<UserStockWatchListDTO> userwatchlistDTO=new ArrayList<UserStockWatchListDTO>();
@@ -43,7 +43,7 @@ public class UserStockWatchListService {
 		}
 		return userwatchlistDTO;
 	}
-	//convert to DTO before saving
+	
 	@Transactional
 	public void addstocktowatchlist(UserStockWatchListDTO newstock) {
 		UserStockWatchList stock=new UserStockWatchList();
