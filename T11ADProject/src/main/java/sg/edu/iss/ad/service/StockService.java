@@ -13,7 +13,8 @@ import sg.edu.iss.ad.repository.StockRepository;
 public class StockService {
 	@Autowired
 	StockRepository srepo;
-	//when user adds to first comment, save stock and comment
+	
+	//Save Stock to DB
 	@Transactional
 	public void addnewstock(UserStockWatchListDTO newstock) {
 			Stock stocktoadd=new Stock();

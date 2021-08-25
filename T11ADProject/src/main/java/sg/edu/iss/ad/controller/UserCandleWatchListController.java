@@ -22,6 +22,7 @@ public class UserCandleWatchListController {
 	@Autowired
 	UserCandleWatchListService ucwlservice;
 
+	//add all 4 candles into DB
 	@PostMapping("/watchlist/autoAddCandle")
 	public void autoAddCandle(String username,String stockname,String stockticker){
 		UserStockWatchListDTO uswlDTO = new UserStockWatchListDTO();
@@ -38,6 +39,7 @@ public class UserCandleWatchListController {
 		return ResponseEntity.ok(candlewatchlist);
 	}
 	
+	//updates candles
 	@PostMapping("/watchlist/candlewatchlist/update")
 	public ResponseEntity<List<UserCandleWatchListDTO>> updatecandledata(@RequestBody List<UserCandleWatchListDTO> input){
 		List<UserCandleWatchListDTO> updatedcandlewatchlist=ucwlservice.UpdateUserWatchList(input);

@@ -86,7 +86,7 @@ public class UserCandleWatchListService {
 			tosave.setDateTimeActive(Long.parseLong(userinput.get(i).getDatetime()));   
 			ucwlrepo.save(tosave);
 			
-			//if active is true- i will return date
+			//if active is true, means user tracking, return DD-MM-YYYY hh:ss;
 			if(userinput.get(i).getActive())
 				userinput.get(i).setDatetime(UtilityManager.UnixToDate(Long.parseLong(userinput.get(i).getDatetime()), true));
 		}
