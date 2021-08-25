@@ -50,8 +50,8 @@ public class CandleService{
         HttpHeaders headers=new HttpHeaders();
         headers.add("Accept","application/json");
         //headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
-        //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
-        headers.add("x-api-key","3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r");
+        headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
+        //headers.add("x-api-key","3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r");
         
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
         ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);
@@ -64,7 +64,7 @@ public class CandleService{
     //To get list of bullish engulfing for past 200 days, returns MM-DD-YYYY
     public List<String> getBullishEngulfingCandleSignal(List<CandleModel> result){
     	List<String> Dates= new ArrayList<>();
-    	for(int i=0;i<200-1;i++) {
+    	for(int i=0;i<result.size()-1;i++) {
     		if(result.get(i).getOpen()>result.get(i).getClose() //0 opening lesser than 0 close
     			&& result.get(i+1).getOpen()<result.get(i+1).getClose() //1 open lesser than 1 close
     			&& result.get(i+1).getOpen()<result.get(i).getClose() //1 open lesser than 0 close
@@ -80,7 +80,7 @@ public class CandleService{
     //same as above, returns UNIX
     public List<Long> getBullishEngulfingCandleSignalUNIX(List<CandleModel> result){
     	List<Long> timestamps= new ArrayList<>();
-    	for(int i=0;i<200-1;i++) {
+    	for(int i=0;i<result.size()-1;i++) {
     		if(result.get(i).getOpen()>result.get(i).getClose() //0 opening lesser than 0 close
     				&& result.get(i+1).getOpen()<result.get(i+1).getClose() //1 open lesser than 1 close
     				&& result.get(i+1).getOpen()<result.get(i).getClose() //1 open lesser than 0 close
@@ -93,7 +93,7 @@ public class CandleService{
     
     public List<String> getBearishEngulfingCandleSignal(List<CandleModel> result){
        	List<String> Dates= new ArrayList<>();
-    	for(int i=0;i<200-1;i++) {
+    	for(int i=0;i<result.size();i++) {
     		if(result.get(i).getOpen()<result.get(i).getClose()
     			&& result.get(i+1).getOpen()>result.get(i+1).getClose() //1 close lower
     			&& result.get(i+1).getOpen()>result.get(i).getClose() //1 open more than 0 close
@@ -107,7 +107,7 @@ public class CandleService{
     //same as above, return UNIX instead
     public List<Long> getBearishEngulfingCandleSignalUNIX(List<CandleModel> result){
        	List<Long> Dates= new ArrayList<>();
-    	for(int i=0;i<200-1;i++) {
+    	for(int i=0;i<result.size()-1;i++) {
     		if(result.get(i).getOpen()<result.get(i).getClose()
     			&& result.get(i+1).getOpen()>result.get(i+1).getClose() //1 open lesser than 1 close
     			&& result.get(i+1).getOpen()>result.get(i).getClose() //1 open more than 0 close
@@ -122,7 +122,7 @@ public class CandleService{
     
     public List<String> getEveningStar(List<CandleModel> result){
     	List<String> Dates=new ArrayList<>();
-    	for(int i=9;i<200-1;i++) {
+    	for(int i=9;i<result.size()-1;i++) {
     		//1. Find the max for the past 10 days
     		List<CandleModel> sublist=result.subList(i-9,i);
     		double tendayhigh=0;
@@ -166,9 +166,9 @@ public class CandleService{
     //Same as above, return UNIX instead
     public List<Long> getEveningStarUNIX(List<CandleModel> result){
     	List<Long> Dates=new ArrayList<>();
-    	for(int i=9;i<200-1;i++) {
+    	for(int i=4;i<result.size()-1;i++) {
     		//1. Find the max for the past 10 days
-    		List<CandleModel> sublist=result.subList(i-9,i);
+    		List<CandleModel> sublist=result.subList(i-4,i);
     		double tendayhigh=0;
     		for(CandleModel close:sublist ) {
     			if(close.getHigh()>tendayhigh)
@@ -210,9 +210,9 @@ public class CandleService{
     
     public List<String> getMorningStarCandle (List<CandleModel> result){
     	List<String> Dates=new ArrayList<>();
-    	for(int i=9;i<200-1;i++) {
+    	for(int i=4;i<result.size()-1;i++) {
     		//1. Find the min for the past 10 days
-    		List<CandleModel> sublist=result.subList(i-9,i);
+    		List<CandleModel> sublist=result.subList(i-4,i);
     		double tendaylow=Double.MAX_VALUE;
     		for(CandleModel close:sublist ) {
     			if(close.getLow()<tendaylow)
@@ -259,9 +259,9 @@ public class CandleService{
     //Same as above,return UNIX instead
     public List<Long> getMorningStarCandleUNIX (List<CandleModel> result){
     	List<Long> Dates=new ArrayList<>();
-    	for(int i=9;i<200-1;i++) {
+    	for(int i=4;i<result.size()-1;i++) {
     		//1. Find the min for the past 10 days
-    		List<CandleModel> sublist=result.subList(i-9,i);
+    		List<CandleModel> sublist=result.subList(i-4,i);
     		double tendaylow=Double.MAX_VALUE;
     		for(CandleModel close:sublist ) {
     			if(close.getLow()<tendaylow)
