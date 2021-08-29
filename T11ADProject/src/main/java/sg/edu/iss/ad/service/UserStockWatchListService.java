@@ -44,7 +44,7 @@ public class UserStockWatchListService {
 		return userwatchlistDTO;
 	}
 	
-	@Transactional
+
 	public void addstocktowatchlist(UserStockWatchListDTO newstock) {
 		UserStockWatchList stock=new UserStockWatchList();
 		
@@ -57,9 +57,13 @@ public class UserStockWatchListService {
 			cservice.savecandlehistoryonnewstock(newstock.getStockticker());
 		}
 		
-		stock.setStock(srepo.findByStockTicker(newstock.getStockticker()));
-		stock.setUser(urepo.findByUsername(newstock.getUsername()));
-		uwlrepo.save(stock);
+		//check if stock is already in watchlist
+		UserStockWatchList tocheck=uwlrepo.FindStockByUserandTicker(newstock.getUsername(),newstock.getStockticker());
+		if(tocheck==null) {
+			stock.setStock(srepo.findByStockTicker(newstock.getStockticker()));
+			stock.setUser(urepo.findByUsername(newstock.getUsername()));
+			uwlrepo.save(stock);			
+		}
 	}
 	
 	@Transactional
