@@ -44,9 +44,9 @@ public class SentimentController {
 	@GetMapping("/getCommentSentiment/{ticker}")
 	public String getCommentSentiment(@PathVariable String ticker){
 
-		List<CommentsDTO> comments= cservice.getStockComments(ticker);
+		List<CommentsDTO> comments = cservice.getStockComments(ticker);
 
-		String url = "https://ad-proj-sentiment-analysis.herokuapp.com/comments-sentiment/";
+		String url = "https://ad-proj-sentiment-analysis.herokuapp.com/comments-sentiment";
 
 		String sentiment = sentimentService.getCommentSentiment(url, comments);
 
