@@ -58,8 +58,8 @@ public class CandleService{
         headers.add("Accept","application/json");
         //headers.add("x-api-key","eg3Z4ml4ik5Grz5tGNMlc7qsZz18VnEo21ERKTYp");
         //headers.add("x-api-key","VTr2Z2gNmk7rVPuHnVMnyWw6tfGcEsbaHFWUixU7");
-        //headers.add("x-api-key","3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r");
-        headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
+        headers.add("x-api-key","3xoXzXZBYw9YffOybSpCZ5lnG3brJAzK4apdKB6r");
+        //headers.add("x-api-key","NgFvWshO6n9prAD0asbdT6tRTZVZCQal32gC5ylu");
         
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(null,headers);
         ResponseEntity<String> rawResult = restTemplate.exchange(url, HttpMethod.GET,httpEntity,String.class);

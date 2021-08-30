@@ -2,7 +2,9 @@ package sg.edu.iss.ad.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -30,8 +32,9 @@ public class CommentService {
 	@Transactional
 	public List<CommentsDTO> getStockComments(String ticker){
 		List<UserStockComment> comments=crepo.findCommentsByStock(ticker);
+		List<UserStockComment> sortedcomments=comments.stream().sorted(Comparator.comparing(UserStockComment::getCommentDateTime)).collect(Collectors.toList());
 		List<CommentsDTO> commentDTOList=new ArrayList<CommentsDTO>();
-		for(UserStockComment eachcomment:comments) {
+		for(UserStockComment eachcomment:sortedcomments) {
 			CommentsDTO mapcomments=new CommentsDTO();
 			mapcomments.setUsername(eachcomment.getUser().getUsername());
 			mapcomments.setStockticker(eachcomment.getStock().getStockTicker());
