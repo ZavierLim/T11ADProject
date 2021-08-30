@@ -1,8 +1,10 @@
 package sg.edu.iss.ad.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +63,9 @@ public class UserCandleWatchListService {
 	public List<UserCandleWatchListDTO> WatchListByUserAndTicker(UserCandleWatchListDTO userinput){
 		List<UserCandleWatchListDTO> tofrontend=new ArrayList<UserCandleWatchListDTO>();
 		List<UserCandleWatchList> allcandles=ucwlrepo.findUserCandleWatchListByStockTickerandUsername(userinput.getStockticker(), userinput.getUsername());
-		for(UserCandleWatchList candle:allcandles) {
+		List<UserCandleWatchList> sortedallcandles=allcandles.stream().sorted(Comparator.comparing(UserCandleWatchList::getId)).collect(Collectors.toList());
+		for(UserCandleWatchList candle:sortedallcandles) {
+			System.out.println(candle.getId());
 			UserCandleWatchListDTO temp=new UserCandleWatchListDTO();
 			temp.setUsername(candle.getUserStockWatchList().getUser().getUsername());
 			temp.setStockticker(candle.getUserStockWatchList().getStock().getStockTicker());
