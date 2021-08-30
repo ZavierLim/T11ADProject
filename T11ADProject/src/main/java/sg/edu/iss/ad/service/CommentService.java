@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.ad.DTO.CommentsDTO;
+import sg.edu.iss.ad.model.Stock;
 import sg.edu.iss.ad.model.UserStockComment;
 import sg.edu.iss.ad.repository.StockRepository;
 import sg.edu.iss.ad.repository.UserRepository;
@@ -46,8 +47,22 @@ public class CommentService {
 		return commentDTOList;
 	}
 	
-	@Transactional
+	@Autowired
+	CandleService cservice;
+	
+
 	public void SaveComment(CommentsDTO comment) {
+		
+		//if the stock is not existing in DB, i will add stock to DB
+		if(srepo.findByStockTicker(comment.getStockticker())==null) {
+			//if stock is not existing
+			Stock stocktoadd=new Stock();
+			stocktoadd.setStockTicker(comment.getStockticker());
+			stocktoadd.setStockName(comment.getStockname());
+			srepo.save(stocktoadd);
+			cservice.savecandlehistoryonnewstock(comment.getStockticker());
+		}		
+		//then i save the comment
 		UserStockComment newcomment=new UserStockComment();
 		newcomment.setUser(urepo.findByUsername(comment.getUsername()));
 		newcomment.setStock(srepo.findByStockTicker(comment.getStockticker()));
