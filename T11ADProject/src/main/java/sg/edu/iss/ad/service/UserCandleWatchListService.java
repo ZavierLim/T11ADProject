@@ -37,8 +37,8 @@ public class UserCandleWatchListService {
 	}
 	
 	//Delete WatchList
-	public void deleteWatchListBystockTicker(String stockTicker){
-		List<UserCandleWatchList> ucwlList = ucwlrepo.findUserCandleWatchListByStockTicker(stockTicker);
+	public void deleteWatchListBystockTicker(UserStockWatchListDTO candletodelete){
+		List<UserCandleWatchList> ucwlList = ucwlrepo.findUserCandleWatchListByStockTickerandUsername(candletodelete.getStockticker(),candletodelete.getUsername());
 		for (UserCandleWatchList ucwl:ucwlList){
 			ucwlrepo.deletewatchlistbyId(ucwl.getId());
 		}
